@@ -8,6 +8,13 @@ body{
 	line-height: 1.3em;
 }
 
+#wrap{
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; 
+  position: relative;
+}
+
 p{
 	margin:5px 0px 10px 0px;
 }
@@ -94,10 +101,15 @@ ul li img{
 	position:relative;
 	z-index: 100;
 	padding:10px;
+  overflow-y: scroll;
+  height: 100vh;
+  width: calc(100vw - 20px);
+  background: transparent;
 }
 @media(max-width:768px){
   #container{
     padding:20px;
+    width: calc(100vw - 40px);
   }
 }
 
