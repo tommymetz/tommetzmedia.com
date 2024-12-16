@@ -51,13 +51,13 @@
 
     <!-- Flysplatter Embed -->
     <div id="flycontainer" style="position:fixed; z-index:1000; top: 0"></div>
-    <script src="/flysplatter/dist/js/flysplatter.min.js" type="module"></script>
+    <script src="https://flysplatter.netlify.app/flysplatter/dist/js/flysplatter.min.js"></script>
     <script type="">
       (function() {
         setTimeout(function(){
           const flies = new Flies(1, {
             id: 'flies', //html/css namespace
-            assetlocation: './flysplatter', //absolute url where the image and audio files live. Leave blank if in current folder '.'
+            assetlocation: 'https://flysplatter.netlify.app/flysplatter', //absolute url where the image and audio files live. Leave blank if in current folder '.'
             containerid: 'flycontainer', //The container that the flies live in
             startpause: 5000, //Time it takes to for a new fly to appear. This is added to a random number to give it variation
             mute: true, //Default is false,
