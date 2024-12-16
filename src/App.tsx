@@ -47,7 +47,7 @@ function App() {
         </ul>
         <ul id="tools">
           <li>
-            <span className="strong">My Tools:</span>
+            <span className="strong">My Tools: </span>
             <span id="tools-list">
               {data?.tools_list[0].text}
             </span>
