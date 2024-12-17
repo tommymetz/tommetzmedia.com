@@ -17,8 +17,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
     <mesh ref={meshRef} position={[2, 0, 0]}>
       <boxGeometry args={[1, 1, 1]} />
       <meshStandardMaterial
-        // @ts-expect-error not sure why this is throwing an error
-        color="#999999" 
+        color="lightgray" 
         flatShading={true} 
       />
     </mesh>
