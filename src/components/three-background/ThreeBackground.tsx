@@ -8,7 +8,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
   // Use scrollRef inside the animation loop
   useFrame(() => {
     if (meshRef.current && scrollRef.current !== undefined && scrollRef.current !== null) {
-      // meshRef.current.rotation.y = scrollRef.current * 0.001;
+      meshRef.current.rotation.y = scrollRef.current * 0.001;
       meshRef.current.position.y = scrollRef.current * 0.001;
     }
   })
@@ -28,6 +28,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
 export const ThreeBackground = ({ scrollRef }: { scrollRef: React.RefObject<number>}) => {
   return (
     <Canvas
+      className="three-background"
       style={{
         position: "fixed",
         top: 0,

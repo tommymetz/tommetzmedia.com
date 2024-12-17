@@ -9,6 +9,7 @@ body{
 }
 
 #wrap{
+  opacity: 0;
   height: 100vh;
   width: 100vw;
   overflow: hidden; 
@@ -97,7 +98,7 @@ ul li img{
 }
 
 #container{
-  opacity: 0;
+  /* opacity: 0; */
 	position:relative;
 	z-index: 100;
 	padding:10px;
@@ -113,32 +114,7 @@ ul li img{
   }
 }
 
-header{
-  line-height:normal;
-}
 
-#logo{
-  color:#1f94b5;
-  font-size:50px;
-  padding:0px;
-  margin:0px;
-}
-@media(max-width:768px){
-  #logo{
-    font-size:30px;
-  }
-}
-
-#tagline-a, #tagline-b{
-  font-size:35px;
-  margin:0px;
-}
-@media(max-width:768px){
-  #tagline-a, #tagline-b{
-    font-size:25px;
-    padding-top:0px;
-  }
-}
 
 .section{
   margin-top:35px;

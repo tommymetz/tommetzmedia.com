@@ -1,25 +1,28 @@
 import React, { useRef, useEffect } from 'react'
 import { useSinglePrismicDocument } from '@prismicio/react'
-import { ThreeBackground } from './components'
+import { Header, ThreeBackground } from './components'
 import './App.css'
 
 function App() {
-  const container = React.useRef<HTMLDivElement>(null)
+  const wrapRef = React.useRef<HTMLDivElement>(null)
+  const containerRef = React.useRef<HTMLDivElement>(null)
   const [ document, { state } ] = useSinglePrismicDocument('homepage')
   const data = document?.data
 
-  // Fade in container when prismic document is loaded
+  // Fade in wrap when prismic document is loaded
   React.useEffect(() => {
-    if (state === 'loaded') container.current?.classList.add('fade-in')
+    if (state === 'loaded'){
+      wrapRef.current?.classList.add('fade-in')
+    }
   }, [state])
 
   // Track scroll position
   const scrollRef = useRef(0)
   useEffect(() => {
     const handleScroll = () => {
-      if (container.current) scrollRef.current = container.current.scrollTop
+      if (containerRef.current) scrollRef.current = containerRef.current.scrollTop
     }
-    const theContainer = container.current
+    const theContainer = containerRef.current
     if (theContainer) {
       theContainer.addEventListener("scroll", handleScroll)
       return () => theContainer?.removeEventListener("scroll", handleScroll)
@@ -27,20 +30,14 @@ function App() {
   }, [])
   
   return (
-    <div id="wrap">
-      <ThreeBackground scrollRef={scrollRef} />
-      <div ref={container} id="container">
-        <header>
-          <h1 id="logo">
-            {data?.headline[0].text}
-          </h1>
-          <h1 id="tagline-a">
-            {data?.tagline_a[0].text}
-          </h1>
-          <h1 id="tagline-b">
-            {data?.tagline_b[0].text}
-          </h1>
-        </header>
+    <div ref={wrapRef} id="wrap">
+      <ThreeBackground loaded={state === 'loaded'} scrollRef={scrollRef} />
+      <div ref={containerRef} id="container">
+        <Header
+          headline={data?.headline[0].text}
+          taglineA={data?.tagline_a[0].text}
+          taglineB={data?.tagline_b[0].text}
+        />
         <div className="section">
           <h2>About:</h2>
           <ul>
