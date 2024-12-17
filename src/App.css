@@ -113,14 +113,3 @@ ul li img{
     width: calc(100vw - 40px);
   }
 }
-
-
-
-.section{
-  margin-top:35px;
-  margin-bottom:60px;
-  max-width:680px;
-}
-.section:last-child{
-  margin-bottom:100px;
-}

@@ -1,6 +1,10 @@
 import React, { useRef, useEffect } from 'react'
 import { useSinglePrismicDocument } from '@prismicio/react'
-import { Header, ThreeBackground } from './components'
+import {
+  Header,
+  Section,
+  ThreeBackground
+} from './components'
 import './App.css'
 
 function App() {
@@ -38,8 +42,7 @@ function App() {
           taglineA={data?.tagline_a[0].text}
           taglineB={data?.tagline_b[0].text}
         />
-        <div className="section">
-          <h2>About:</h2>
+        <Section headline="About">
           <ul>
             <li>
               <img id="about-picture" src={data?.about_picture.url} />
@@ -48,9 +51,8 @@ function App() {
               <div dangerouslySetInnerHTML={{__html: data?.about_text[0].text}} />
             </li>
           </ul>
-        </div>
-        <div className="section">
-          <h2>Services:</h2>
+        </Section>
+        <Section headline="Services">
           <ul id="services">
             {data?.services.map((service: any, index: number) => (
               <li key={index}>
@@ -66,9 +68,8 @@ function App() {
               </span>
             </li>
           </ul>
-        </div>
-        <div className="section">
-          <h2>Featured Work:</h2>
+        </Section>
+        <Section headline="Featured Work">
           <ul id="projects">
             {data?.projects.map((project: any, index: number) => (
               <li key={index}>
@@ -80,9 +81,8 @@ function App() {
               </li>
             ))}
           </ul>
-        </div>
-        <div className="section">
-          <h2>Clients:</h2>
+        </Section>
+        <Section headline="Clients">
           <ul>
             <li>
               <span className="strong">Past/Present:</span><br />
@@ -96,13 +96,12 @@ function App() {
               </div>
             </li>
           </ul>
-        </div>
-        <div className="section">
-          <h2>Contact:</h2>
+        </Section>
+        <Section headline="Contact">
           <ul>
             <li>tom@tommetzmedia.com</li>
           </ul>
-        </div>
+        </Section>
       </div>
     </div>
   )
