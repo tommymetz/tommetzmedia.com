@@ -35,7 +35,7 @@ function App() {
   
   return (
     <div ref={wrapRef} id="wrap">
-      <ThreeBackground loaded={state === 'loaded'} scrollRef={scrollRef} />
+      <ThreeBackground scrollRef={scrollRef} />
       <div ref={containerRef} id="container">
         <Header
           headline={data?.headline[0].text}
