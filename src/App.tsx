@@ -1,31 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { useSinglePrismicDocument } from '@prismicio/react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
+import { ThreeBackground } from './components'
 import './App.css'
-
-const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) => {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  // Use scrollRef inside the animation loop
-  useFrame(() => {
-    if (meshRef.current && scrollRef.current !== undefined && scrollRef.current !== null) {
-      meshRef.current.rotation.y = scrollRef.current * 0.001;
-      meshRef.current.position.y = scrollRef.current * 0.01;
-    }
-  })
-
-  return (
-    <mesh ref={meshRef} position={[2, 0, 0]}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial
-        // @ts-ignore
-        color="#999999" 
-        flatShading={true} 
-      />
-    </mesh>
-  );
-};
 
 function App() {
   const container = React.useRef<HTMLDivElement>(null)
@@ -38,10 +14,10 @@ function App() {
   }, [state])
 
   // Track scroll position
-  const scrollValue = useRef(0)
+  const scrollRef = useRef(0)
   useEffect(() => {
     const handleScroll = () => {
-      if (container.current) scrollValue.current = container.current.scrollTop
+      if (container.current) scrollRef.current = container.current.scrollTop
     }
     const theContainer = container.current
     if (theContainer) {
@@ -52,27 +28,7 @@ function App() {
   
   return (
     <div id="wrap">
-      <Canvas
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-        }}
-        camera={{ position: [0, 0, 5] }}
-      >
-        <ambientLight intensity={1.5} />
-        <directionalLight 
-          position={[0, 0, 5]} // Position the light in front of the camera
-          intensity={1.5} 
-        />
-        <directionalLight 
-          position={[-5, -5, -5]} // Secondary light from the back
-          intensity={0.5} 
-        />
-        <BackgroundScene scrollRef={scrollValue} />
-      </Canvas>
+      <ThreeBackground scrollRef={scrollRef} />
       <div ref={container} id="container">
         <header>
           <h1 id="logo">
