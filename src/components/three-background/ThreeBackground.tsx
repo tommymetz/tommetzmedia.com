@@ -1,28 +1,45 @@
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
 const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) => {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<THREE.Group>(null);
 
-  // Use scrollRef inside the animation loop
+  // Config
+  const count = 20
+  const xPos = 2
+  const yPos = -1
+  const zPos = 0
+  const xWidth = 15
+  const yHeight = 10
+  const zDepth = 4
+
+  // Animation loop
   useFrame(() => {
-    if (meshRef.current && scrollRef.current !== undefined && scrollRef.current !== null) {
-      meshRef.current.rotation.y = scrollRef.current * 0.001;
-      meshRef.current.position.y = scrollRef.current * 0.001;
+    // Update the rotation and position of the group based on the scrollRef
+    if (groupRef.current && scrollRef.current !== undefined && scrollRef.current !== null) {
+      groupRef.current.position.y = scrollRef.current * 0.0005 + yPos
     }
   })
 
   return (
-    <mesh ref={meshRef} position={[2, 0, 0]}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial
-        color="lightgray" 
-        flatShading={true} 
-      />
-    </mesh>
-  );
-};
+    <group ref={groupRef} position={[xPos, 0/* overridden above */, zPos]}>
+      {[...Array(count)].map((_, i) => {
+        const x = Math.random() * xWidth - xWidth / 2
+        const y = Math.random() * yHeight - yHeight / 2
+        const z = Math.random() * zDepth - zDepth / 2
+        return (
+          <group position={[x, y, z]} key={i}>
+            <mesh>
+              <circleGeometry args={[0.05, 10]} />
+              <meshStandardMaterial color="lightgray" flatShading={true} />
+            </mesh>
+          </group>
+        )
+      })}
+    </group>
+  )
+}
 
 export const ThreeBackground = ({ scrollRef }: { scrollRef: React.RefObject<number>}) => {
   return (
@@ -35,8 +52,12 @@ export const ThreeBackground = ({ scrollRef }: { scrollRef: React.RefObject<numb
         width: "100%",
         height: "100%",
       }}
-      camera={{ position: [0, 0, 5] }}
+      camera={{
+        position: [0, 0, 8],
+        fov: 70,
+      }}
     >
+      {/* <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={50} /> */}
       <ambientLight intensity={1.5} />
       <directionalLight position={[0, 0, 5]} intensity={1.5} />
       <directionalLight position={[-5, -5, -5]} intensity={0.5} />
