@@ -13,10 +13,12 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
   const xWidth = 15
   const yHeight = 10
   const zDepth = 4
+  const sphereRadiusRange = 0.1
+  const sphereRadiusMin = 0.05
 
   // Animation loop
   useFrame(() => {
-    // Update the rotation and position of the group based on the scrollRef
+    // Group scroll position
     if (groupRef.current && scrollRef.current !== undefined && scrollRef.current !== null) {
       groupRef.current.position.y = scrollRef.current * 0.0005 + yPos
     }
@@ -28,10 +30,11 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
         const x = Math.random() * xWidth - xWidth / 2
         const y = Math.random() * yHeight - yHeight / 2
         const z = Math.random() * zDepth - zDepth / 2
+        const sphereRadius = Math.random() * (sphereRadiusRange - sphereRadiusMin) + sphereRadiusMin
         return (
           <group position={[x, y, z]} key={i}>
             <mesh>
-              <circleGeometry args={[0.05, 10]} />
+              <circleGeometry args={[sphereRadius, 15]} />
               <meshStandardMaterial color="lightgray" flatShading={true} />
             </mesh>
           </group>
@@ -57,10 +60,9 @@ export const ThreeBackground = ({ scrollRef }: { scrollRef: React.RefObject<numb
         fov: 70,
       }}
     >
-      {/* <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={50} /> */}
       <ambientLight intensity={1.5} />
-      <directionalLight position={[0, 0, 5]} intensity={1.5} />
-      <directionalLight position={[-5, -5, -5]} intensity={0.5} />
+      {/* <directionalLight position={[0, 0, 5]} intensity={1.5} />
+      <directionalLight position={[-5, -5, -5]} intensity={0.5} /> */}
       <BackgroundScene scrollRef={scrollRef} />
     </Canvas>
   )
