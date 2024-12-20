@@ -4,17 +4,19 @@ import * as THREE from 'three'
 
 const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) => {
   const groupRef = useRef<THREE.Group>(null);
+  const sphereRefs = useRef<THREE.Mesh[]>([]);
 
   // Config
   const count = 20
   const xPos = 2
-  const yPos = -1
+  const yPos = -1.25
   const zPos = 0
   const xWidth = 15
-  const yHeight = 10
-  const zDepth = 4
+  const yHeight = 12
+  const zDepth = 8
   const sphereRadiusRange = 0.1
   const sphereRadiusMin = 0.05
+  const scaleAmt = 0.005
 
   // Animation loop
   useFrame(() => {
@@ -22,6 +24,21 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
     if (groupRef.current && scrollRef.current !== undefined && scrollRef.current !== null) {
       groupRef.current.position.y = scrollRef.current * 0.0005 + yPos
     }
+
+    // Shrink spheres over time
+    sphereRefs.current.forEach((sphere) => {
+      const radius = sphere.geometry.boundingSphere?.radius || sphereRadiusMin
+      const scale = (radius - sphereRadiusMin / sphereRadiusRange) * scaleAmt + scaleAmt
+      if (sphere.scale.x > sphereRadiusMin) {
+        sphere.scale.x -= scale;
+        sphere.scale.y -= scale;
+        sphere.scale.z -= scale;
+      } else {
+        sphere.scale.x = 1
+        sphere.scale.y = 1
+        sphere.scale.z = 1
+      }
+    });
   })
 
   return (
@@ -33,8 +50,8 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
         const sphereRadius = Math.random() * (sphereRadiusRange - sphereRadiusMin) + sphereRadiusMin
         return (
           <group position={[x, y, z]} key={i}>
-            <mesh>
-              <circleGeometry args={[sphereRadius, 15]} />
+            <mesh ref={el => el && (sphereRefs.current[i] = el)}>
+              <circleGeometry args={[sphereRadius, 20]} />
               <meshStandardMaterial color="lightgray" flatShading={true} />
             </mesh>
           </group>
