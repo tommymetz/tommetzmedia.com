@@ -14,8 +14,8 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
   const xWidth = 15
   const yHeight = 12
   const zDepth = 8
-  const sphereRadiusRange = 0.1
-  const sphereRadiusMin = 0.05
+  const sphereRadiusRange = 0.06
+  const sphereRadiusMin = 0.03
   const scaleAmt = 0.0025
 
   const getRandomPosition = () => {
