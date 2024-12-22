@@ -60,14 +60,14 @@ function App() {
               </li>
             ))}
           </ul>
-          <ul id="tools">
+          {/* <ul id="tools">
             <li>
               <span className="strong">My Tools: </span>
               <span id="tools-list">
                 {data?.tools_list[0].text}
               </span>
             </li>
-          </ul>
+          </ul> */}
         </Section>
         <Section headline="Featured Work">
           <ul id="projects">
