@@ -14,7 +14,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
   const xWidth = 15
   const yHeight = 12
   const zDepth = 8
-  const sphereRadiusRange = 0.06
+  const sphereRadiusRange = 0.25
   const sphereRadiusMin = 0.03
   const scaleAmt = 0.0025
 
@@ -60,7 +60,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
         return (
           <group position={position} key={i}>
             <mesh ref={el => el && (sphereRefs.current[i] = el)}>
-              <circleGeometry args={[sphereRadius, 20]} />
+              <circleGeometry args={[sphereRadius, 30]} />
               <meshStandardMaterial color="lightgray" flatShading={true} />
             </mesh>
           </group>
