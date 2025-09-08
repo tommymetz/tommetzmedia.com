@@ -2,21 +2,105 @@ import React, { useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
+interface FireworkProps {
+  position: [number, number, number]
+  onReset: () => void
+}
+
+const Firework: React.FC<FireworkProps> = ({ position, onReset }) => {
+  const groupRef = useRef<THREE.Group>(null)
+  const particleRefs = useRef<THREE.Mesh[]>([])
+  const timeRef = useRef(0)
+  const explosionTime = useRef(2) // Time for full explosion cycle
+  
+  const particleCount = 8
+  const explosionRadius = 0.8
+  const particleSize = 0.02
+  
+  // Generate random directions for particles
+  const directions = useRef(
+    Array(particleCount).fill(0).map(() => {
+      const theta = Math.random() * Math.PI * 2
+      const phi = Math.random() * Math.PI
+      return new THREE.Vector3(
+        Math.sin(phi) * Math.cos(theta),
+        Math.sin(phi) * Math.sin(theta),
+        Math.cos(phi)
+      ).normalize()
+    })
+  )
+  
+  // Random colors for variety
+  const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b', '#6c5ce7', '#a29bfe']
+  const fireworkColor = colors[Math.floor(Math.random() * colors.length)]
+  
+  useFrame((_, delta) => {
+    timeRef.current += delta
+    
+    particleRefs.current.forEach((particle, index) => {
+      if (!particle) return
+      
+      const progress = Math.min(timeRef.current / explosionTime.current, 1)
+      const direction = directions.current[index]
+      
+      // Move particles outward
+      const distance = progress * explosionRadius * (0.5 + Math.random() * 0.5)
+      particle.position.set(
+        direction.x * distance,
+        direction.y * distance,
+        direction.z * distance
+      )
+      
+      // Fade out over time
+      const opacity = Math.max(0, 1 - progress)
+      if (particle.material instanceof THREE.MeshStandardMaterial) {
+        particle.material.opacity = opacity
+      }
+      
+      // Scale particles
+      const scale = Math.max(0.1, 1 - progress * 0.5)
+      particle.scale.setScalar(scale)
+    })
+    
+    // Reset when explosion is complete
+    if (timeRef.current >= explosionTime.current) {
+      timeRef.current = 0
+      explosionTime.current = 1.5 + Math.random() * 1 // Vary explosion duration
+      onReset()
+    }
+  })
+  
+  return (
+    <group ref={groupRef} position={position}>
+      {Array(particleCount).fill(0).map((_, i) => (
+        <mesh
+          key={i}
+          ref={el => el && (particleRefs.current[i] = el)}
+          position={[0, 0, 0]}
+        >
+          <sphereGeometry args={[particleSize, 8, 8]} />
+          <meshStandardMaterial 
+            color={fireworkColor}
+            transparent
+            opacity={1}
+          />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
 const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) => {
   const groupRef = useRef<THREE.Group>(null);
-  const sphereRefs = useRef<THREE.Mesh[]>([]);
-
+  
   // Config
-  const count = 20
+  const count = 12 // Reduced count since fireworks are more complex
   const xPos = 2
   const yPos = -1.25
   const zPos = 0
   const xWidth = 15
   const yHeight = 12
   const zDepth = 8
-  const sphereRadiusRange = 0.25
-  const sphereRadiusMin = 0.03
-  const scaleAmt = 0.0025
 
   const getRandomPosition = () => {
     const x = Math.random() * xWidth - xWidth / 2
@@ -25,47 +109,32 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
     return [x, y, z] as [number, number, number] 
   }
 
-  // Animation loop
+  // Store positions for each firework
+  const fireworkPositions = useRef<[number, number, number][]>(
+    Array(count).fill(null).map(() => getRandomPosition())
+  )
+
+  // Animation loop for scroll effect
   useFrame(() => {
     // Group scroll position
     if (groupRef.current && scrollRef.current !== undefined && scrollRef.current !== null) {
       groupRef.current.position.y = scrollRef.current * 0.0005 + yPos
     }
-
-    // Shrink spheres over time
-    sphereRefs.current.forEach((sphere) => {
-      const radius = sphere.geometry.boundingSphere?.radius || sphereRadiusMin
-      const scale = (radius - sphereRadiusMin / sphereRadiusRange) * scaleAmt + scaleAmt
-      if (sphere.scale.x > sphereRadiusMin) {
-        sphere.scale.x -= scale;
-        sphere.scale.y -= scale;
-        sphere.scale.z -= scale;
-      } else {
-        sphere.scale.x = 1
-        sphere.scale.y = 1
-        sphere.scale.z = 1
-        const position = getRandomPosition()
-        sphere.position.x = position[0]
-        sphere.position.y = position[1]
-        sphere.position.z = position[2]
-      }
-    });
   })
+
+  const handleFireworkReset = (index: number) => {
+    fireworkPositions.current[index] = getRandomPosition()
+  }
 
   return (
     <group ref={groupRef} position={[xPos, 0/* overridden above */, zPos]}>
-      {[...Array(count)].map((_, i) => {
-        const position = getRandomPosition()
-        const sphereRadius = Math.random() * (sphereRadiusRange - sphereRadiusMin) + sphereRadiusMin
-        return (
-          <group position={position} key={i}>
-            <mesh ref={el => el && (sphereRefs.current[i] = el)}>
-              <circleGeometry args={[sphereRadius, 30]} />
-              <meshStandardMaterial color="lightgray" flatShading={true} />
-            </mesh>
-          </group>
-        )
-      })}
+      {[...Array(count)].map((_, i) => (
+        <Firework
+          key={i}
+          position={fireworkPositions.current[i]}
+          onReset={() => handleFireworkReset(i)}
+        />
+      ))}
     </group>
   )
 }
