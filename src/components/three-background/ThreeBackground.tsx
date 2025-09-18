@@ -26,8 +26,8 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
   const scaleAmt = 0.0025
   
   // Gravity physics config
-  const gravitationalConstant = 0.001
-  const damping = 0.99
+  const gravitationalConstant = 0.005
+  const damping = 0.98
 
   const getRandomPosition = () => {
     const x = Math.random() * xWidth - xWidth / 2
@@ -46,7 +46,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
     const distanceMagnitude = distance.length()
     
     // Prevent division by zero and extreme forces
-    if (distanceMagnitude < 0.1) return new THREE.Vector3(0, 0, 0)
+    if (distanceMagnitude < 0.3) return new THREE.Vector3(0, 0, 0)
     
     // Calculate gravitational force magnitude: F = G * (m1 * m2) / r^2
     const forceMagnitude = gravitationalConstant * (sphere1.mass * sphere2.mass) / (distanceMagnitude * distanceMagnitude)
@@ -101,15 +101,20 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
       if (currentScale > sphereRadiusMin) {
         const newScale = currentScale - scaleAmt
         sphereA.mesh.scale.setScalar(newScale)
-        // Update mass based on volume (mass ∝ radius³)
-        sphereA.mass = newScale * newScale * newScale
+        // Update mass based on volume (mass ∝ radius³) with a multiplier for more dramatic effect
+        sphereA.mass = Math.max(0.1, (newScale * newScale * newScale) * 5)
       } else {
         // Reset sphere
         sphereA.mesh.scale.setScalar(1)
         const position = getRandomPosition()
         sphereA.mesh.position.set(position[0], position[1], position[2])
-        sphereA.velocity.set(0, 0, 0)
-        sphereA.mass = 1 // Reset mass
+        // Reset velocity with small random component
+        sphereA.velocity.set(
+          (Math.random() - 0.5) * 0.02,
+          (Math.random() - 0.5) * 0.02,
+          (Math.random() - 0.5) * 0.02
+        )
+        sphereA.mass = 5 // Reset mass to higher value
       }
     });
   })
@@ -124,11 +129,16 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
             <mesh ref={el => {
               if (el) {
                 sphereRefs.current[i] = el
-                // Initialize sphere data
+                // Initialize sphere data with small random velocity
+                const randomVelocity = new THREE.Vector3(
+                  (Math.random() - 0.5) * 0.02,
+                  (Math.random() - 0.5) * 0.02,
+                  (Math.random() - 0.5) * 0.02
+                )
                 sphereData.current[i] = {
                   mesh: el,
-                  velocity: new THREE.Vector3(0, 0, 0),
-                  mass: 1 // Initial mass, will be updated based on scale
+                  velocity: randomVelocity,
+                  mass: 5 // Initial mass, will be updated based on scale
                 }
               }
             }}>
