@@ -26,7 +26,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
   const scaleAmt = 0.0025
   
   // Gravity physics config
-  const gravitationalConstant = 0.005
+  const gravitationalConstant = 0.001
   const damping = 0.98
 
   const getRandomPosition = () => {
@@ -110,9 +110,9 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
         sphereA.mesh.position.set(position[0], position[1], position[2])
         // Reset velocity with small random component
         sphereA.velocity.set(
-          (Math.random() - 0.5) * 0.02,
-          (Math.random() - 0.5) * 0.02,
-          (Math.random() - 0.5) * 0.02
+          (Math.random() - 0.5) * 0.01,
+          (Math.random() - 0.5) * 0.01,
+          (Math.random() - 0.5) * 0.01
         )
         sphereA.mass = 5 // Reset mass to higher value
       }
@@ -131,9 +131,9 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
                 sphereRefs.current[i] = el
                 // Initialize sphere data with small random velocity
                 const randomVelocity = new THREE.Vector3(
-                  (Math.random() - 0.5) * 0.02,
-                  (Math.random() - 0.5) * 0.02,
-                  (Math.random() - 0.5) * 0.02
+                  (Math.random() - 0.5) * 0.01,
+                  (Math.random() - 0.5) * 0.01,
+                  (Math.random() - 0.5) * 0.01
                 )
                 sphereData.current[i] = {
                   mesh: el,
