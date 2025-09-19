@@ -6,6 +6,7 @@ interface SphereData {
   mesh: THREE.Mesh;
   velocity: THREE.Vector3;
   mass: number;
+  shrinkRate: number;
 }
 
 const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) => {
@@ -23,10 +24,9 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
   const zDepth = 8
   const sphereRadiusRange = 0.25
   const sphereRadiusMin = 0.03
-  const scaleAmt = 0.0025
   
   // Gravity physics config
-  const gravitationalConstant = 0.001
+  const gravitationalConstant = 0.0025
   const damping = 0.98
 
   const getRandomPosition = () => {
@@ -96,16 +96,17 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
       if (sphereA.mesh.position.z > zDepth / 2) sphereA.mesh.position.z = -zDepth / 2
       if (sphereA.mesh.position.z < -zDepth / 2) sphereA.mesh.position.z = zDepth / 2
       
-      // Shrink spheres over time and update mass
+      // Shrink spheres over time (per-sphere rate) and update mass
       const currentScale = sphereA.mesh.scale.x
       if (currentScale > sphereRadiusMin) {
-        const newScale = currentScale - scaleAmt
+        const newScale = currentScale - sphereA.shrinkRate
         sphereA.mesh.scale.setScalar(newScale)
         // Update mass based on volume (mass ∝ radius³) with a multiplier for more dramatic effect
         sphereA.mass = Math.max(0.1, (newScale * newScale * newScale) * 5)
       } else {
         // Reset sphere
-        sphereA.mesh.scale.setScalar(1)
+        const resetScale = Math.random() * 0.6 + 0.4 // 0.4 - 1.0
+        sphereA.mesh.scale.setScalar(resetScale)
         const position = getRandomPosition()
         sphereA.mesh.position.set(position[0], position[1], position[2])
         // Reset velocity with small random component
@@ -114,7 +115,9 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
           (Math.random() - 0.5) * 0.01,
           (Math.random() - 0.5) * 0.01
         )
-        sphereA.mass = 5 // Reset mass to higher value
+        // Give each reset a fresh shrink rate and mass based on scale
+        sphereA.shrinkRate = Math.random() * 0.003 + 0.001  // 0.001 - 0.004
+        sphereA.mass = Math.max(0.1, (resetScale * resetScale * resetScale) * 5)
       }
     });
   })
@@ -135,10 +138,16 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
                   (Math.random() - 0.5) * 0.01,
                   (Math.random() - 0.5) * 0.01
                 )
+                // Randomize initial scale so spheres start out-of-phase
+                const initialScale = Math.random() * 0.6 + 0.4 // 0.4 - 1.0
+                el.scale.setScalar(initialScale)
                 sphereData.current[i] = {
                   mesh: el,
                   velocity: randomVelocity,
-                  mass: 5 // Initial mass, will be updated based on scale
+                  // Mass based on scale^3 (scaled for effect)
+                  mass: Math.max(0.1, (initialScale * initialScale * initialScale) * 5),
+                  // Each sphere gets its own shrink rate so lifecycles are desynchronized
+                  shrinkRate: Math.random() * 0.003 + 0.001 // 0.001 - 0.004
                 }
               }
             }}>
