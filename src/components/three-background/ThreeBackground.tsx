@@ -25,6 +25,28 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
   const sphereRadiusRange = 0.25
   const sphereRadiusMin = 0.03
   
+  // Color palette and weights (tune here)
+  // "Most" stay gray, use primary blue a lot, pea green and soft blue just a little
+  const colorWeights = {
+    gray: 0.6,          // majority
+    primaryBlue: 0.3,   // a lot
+    peaGreen: 0.05,     // a little
+    softBlue: 0.05      // a little
+  }
+  const COLORS = {
+    gray: 'lightgray',       // existing gray
+    primaryBlue: '#1f94b5',  // Primary blue
+    peaGreen: '#9a9e4f',     // Pea green
+    softBlue: '#bdd1c9'      // Soft blue
+  }
+  const pickWeightedColor = () => {
+    const r = Math.random()
+    if (r < colorWeights.gray) return COLORS.gray
+    if (r < colorWeights.gray + colorWeights.primaryBlue) return COLORS.primaryBlue
+    if (r < colorWeights.gray + colorWeights.primaryBlue + colorWeights.peaGreen) return COLORS.peaGreen
+    return COLORS.softBlue
+  }
+  
   // Gravity physics config
   const gravitationalConstant = 0.0025
   const damping = 0.98
@@ -127,6 +149,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
       {[...Array(count)].map((_, i) => {
         const position = getRandomPosition()
         const sphereRadius = Math.random() * (sphereRadiusRange - sphereRadiusMin) + sphereRadiusMin
+        const sphereColor = pickWeightedColor()
         return (
           <group position={position} key={i}>
             <mesh ref={el => {
@@ -152,7 +175,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
               }
             }}>
               <sphereGeometry args={[sphereRadius, 16, 16]} />
-              <meshStandardMaterial color="lightgray" flatShading={true} />
+              <meshStandardMaterial color={sphereColor} flatShading={true} />
             </mesh>
           </group>
         )
@@ -177,7 +200,8 @@ export const ThreeBackground = ({ scrollRef }: { scrollRef: React.RefObject<numb
         fov: 70,
       }}
     >
-      <ambientLight intensity={1.5} />
+      <ambientLight intensity={1.8} />
+      <hemisphereLight color="#ffffff" groundColor="#666666" intensity={0.6} />
       {/* <directionalLight position={[0, 0, 5]} intensity={1.5} />
       <directionalLight position={[-5, -5, -5]} intensity={0.5} /> */}
       <BackgroundScene scrollRef={scrollRef} />
