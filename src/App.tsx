@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import { useSinglePrismicDocument } from '@prismicio/react'
+import { prismicClient } from './services'
 import {
   Header,
   Section,
@@ -10,8 +10,30 @@ import './App.css'
 function App() {
   const wrapRef = React.useRef<HTMLDivElement>(null)
   const containerRef = React.useRef<HTMLDivElement>(null)
-  const [ document, { state } ] = useSinglePrismicDocument('homepage')
+  const [document, setDocument] = React.useState<any | null>(null)
+  const [state, setState] = React.useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
   const data = document?.data
+
+  // Load Prismic singleton document (homepage)
+  useEffect(() => {
+    let cancelled = false
+    const run = async () => {
+      try {
+        setState('loading')
+        const doc = await prismicClient.getSingle('homepage')
+        if (!cancelled) {
+          setDocument(doc)
+          setState('loaded')
+        }
+      } catch (e) {
+        if (!cancelled) setState('error')
+      }
+    }
+    run()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   // Fade in wrap when prismic document is loaded
   React.useEffect(() => {
