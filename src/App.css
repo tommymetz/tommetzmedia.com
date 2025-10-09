@@ -113,3 +113,14 @@ ul li img{
     width: calc(100vw - 40px);
   }
 }
+
+.site-version{
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 4px;
+  font-size: 10px;
+  color: rgba(45,71,79,0.7);
+  z-index: 9999;
+  pointer-events: none;
+}

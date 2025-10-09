@@ -6,6 +6,7 @@ import {
   ThreeBackground
 } from './components'
 import './App.css'
+import pkg from '../package.json'
 
 function App() {
   const wrapRef = React.useRef<HTMLDivElement>(null)
@@ -121,9 +122,13 @@ function App() {
         </Section>
         <Section headline="Contact">
           <ul>
-            <li>tom@tommetzmedia.com</li>
+            <li>
+              <a href="mailto:tom@tommetzmedia.com">tom@tommetzmedia.com</a><br /> 
+              <a href="https://github.com/tommymetz" target="_blank" rel="noopener noreferrer">Github</a>
+            </li>
           </ul>
         </Section>
+        <div className="site-version">v{pkg.version}</div>
       </div>
     </div>
   )
