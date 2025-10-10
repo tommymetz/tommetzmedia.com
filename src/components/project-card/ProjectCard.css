@@ -1,0 +1,18 @@
+.project-card {
+  display: inline-block;
+  margin: 0 0 1rem 0;
+}
+.project-card .work img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.project-card .strong {
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.project-card .project-description {
+  margin-top: 0.25rem;
+  color: var(--text-color, #333);
+}
