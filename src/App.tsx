@@ -129,8 +129,8 @@ function App() {
               <a href="https://github.com/tommymetz" target="_blank" rel="noopener noreferrer">Github</a>
             </li>
           </ul>
+          <div className="site-version">v{pkg.version}</div>
         </Section>
-        <div className="site-version">v{pkg.version}</div>
       </div>
     </div>
   )
