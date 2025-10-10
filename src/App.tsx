@@ -3,7 +3,8 @@ import { prismicClient } from './services'
 import {
   Header,
   Section,
-  ThreeBackground
+  ThreeBackground,
+  ProjectCard
 } from './components'
 import './App.css'
 import pkg from '../package.json'
@@ -98,11 +99,26 @@ function App() {
           <ul id="projects">
             {Array.isArray(data?.projects) && data.projects.map((project: any, index: number) => (
               <li key={index}>
-                <a href={project.project_link.url} target="_blank" rel="noopener noreferrer" className="work">
-                  {project.project_image.url && <img src={project.project_image.url} alt={project.project_link_title?.[0]?.text ?? 'project image'} />}
-                </a>
-                <a href={project.project_link.url} target="_blank" rel="noopener noreferrer" className="strong">{project.project_link_title[0].text}</a>
-                : {project.project_description[0].text}
+                <ProjectCard
+                  title={project.project_link_title?.[0]?.text}
+                  link={project.project_link?.url}
+                  image={project.project_image?.url}
+                  description={project.project_description?.[0]?.text}
+                />
+              </li>
+            ))}
+          </ul>
+        </Section>
+        <Section headline="Music Mastering">
+          <ul id="mastering">
+            {Array.isArray(data?.mastering) && data.mastering.map((m: any, i: number) => (
+              <li key={i}>
+                <ProjectCard
+                  title={m.title?.[0]?.text}
+                  link={m.link?.url ?? m.link?.url}
+                  image={m.image_link?.url ?? m.image_link?.url}
+                  description={m.description?.[0]?.text}
+                />
               </li>
             ))}
           </ul>
