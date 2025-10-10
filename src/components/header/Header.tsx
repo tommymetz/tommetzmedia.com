@@ -5,9 +5,9 @@ export const Header = ({
   taglineA,
   taglineB,
 }: {
-  headline: string;
-  taglineA: string;
-  taglineB: string;
+  headline?: string;
+  taglineA?: string;
+  taglineB?: string;
 }) => {
   return (
     <header>

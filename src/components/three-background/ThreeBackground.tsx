@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -9,7 +9,7 @@ interface SphereData {
   shrinkRate: number;
 }
 
-const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) => {
+const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number | undefined> }) => {
   const groupRef = useRef<THREE.Group>(null);
   const sphereRefs = useRef<THREE.Mesh[]>([]);
   const sphereData = useRef<SphereData[]>([]);
@@ -39,13 +39,16 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
     peaGreen: '#9a9e4f',     // Pea green
     softBlue: '#bdd1c9'      // Soft blue
   }
-  const pickWeightedColor = () => {
-    const r = Math.random()
-    if (r < colorWeights.gray) return COLORS.gray
-    if (r < colorWeights.gray + colorWeights.primaryBlue) return COLORS.primaryBlue
-    if (r < colorWeights.gray + colorWeights.primaryBlue + colorWeights.peaGreen) return COLORS.peaGreen
-    return COLORS.softBlue
-  }
+  const pickWeightedColor = useMemo(() => {
+    return () => {
+      const r = Math.random()
+      if (r < colorWeights.gray) return COLORS.gray
+      if (r < colorWeights.gray + colorWeights.primaryBlue) return COLORS.primaryBlue
+      if (r < colorWeights.gray + colorWeights.primaryBlue + colorWeights.peaGreen) return COLORS.peaGreen
+      return COLORS.softBlue
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   
   // Gravity physics config
   const gravitationalConstant = 0.0025
@@ -55,8 +58,35 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
     const x = Math.random() * xWidth - xWidth / 2
     const y = Math.random() * yHeight - yHeight / 2
     const z = Math.random() * zDepth - zDepth / 2
-    return [x, y, z] as [number, number, number] 
+    return [x, y, z] as [number, number, number]
   }
+
+  // Precompute initial sphere properties once (avoid doing Math.random during render)
+  const initialSpheres = useRef<Array<{
+    position: [number, number, number]
+    radius: number
+    color: string
+    initialScale: number
+    shrinkRate: number
+    velocity: THREE.Vector3
+  }>>([])
+
+  useEffect(() => {
+    initialSpheres.current = Array.from({ length: count }).map(() => {
+      const position = getRandomPosition()
+      const radius = Math.random() * (sphereRadiusRange - sphereRadiusMin) + sphereRadiusMin
+      const color = pickWeightedColor()
+      const initialScale = Math.random() * 0.6 + 0.4
+      const shrinkRate = Math.random() * 0.003 + 0.001
+      const velocity = new THREE.Vector3(
+        (Math.random() - 0.5) * 0.01,
+        (Math.random() - 0.5) * 0.01,
+        (Math.random() - 0.5) * 0.01
+      )
+      return { position, radius, color, initialScale, shrinkRate, velocity }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Calculate gravitational force between two spheres
   const calculateGravitationalForce = (sphere1: SphereData, sphere2: SphereData) => {
@@ -88,7 +118,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
     }
 
     // Physics simulation
-    sphereData.current.forEach((sphereA, indexA) => {
+  sphereData.current.forEach((sphereA, indexA) => {
       // Reset force accumulator
       const totalForce = new THREE.Vector3(0, 0, 0)
       
@@ -146,31 +176,23 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number> }) 
 
   return (
     <group ref={groupRef} position={[xPos, 0/* overridden above */, zPos]}>
-      {[...Array(count)].map((_, i) => {
-        const position = getRandomPosition()
-        const sphereRadius = Math.random() * (sphereRadiusRange - sphereRadiusMin) + sphereRadiusMin
-        const sphereColor = pickWeightedColor()
+      {initialSpheres.current.map((s, i) => {
+        const position = s.position
+        const sphereRadius = s.radius
+        const sphereColor = s.color
         return (
           <group position={position} key={i}>
             <mesh ref={el => {
               if (el) {
                 sphereRefs.current[i] = el
                 // Initialize sphere data with small random velocity
-                const randomVelocity = new THREE.Vector3(
-                  (Math.random() - 0.5) * 0.01,
-                  (Math.random() - 0.5) * 0.01,
-                  (Math.random() - 0.5) * 0.01
-                )
-                // Randomize initial scale so spheres start out-of-phase
-                const initialScale = Math.random() * 0.6 + 0.4 // 0.4 - 1.0
-                el.scale.setScalar(initialScale)
+                const randomVelocity = s.velocity
+                el.scale.setScalar(s.initialScale)
                 sphereData.current[i] = {
                   mesh: el,
                   velocity: randomVelocity,
-                  // Mass based on scale^3 (scaled for effect)
-                  mass: Math.max(0.1, (initialScale * initialScale * initialScale) * 5),
-                  // Each sphere gets its own shrink rate so lifecycles are desynchronized
-                  shrinkRate: Math.random() * 0.003 + 0.001 // 0.001 - 0.004
+                  mass: Math.max(0.1, (s.initialScale * s.initialScale * s.initialScale) * 5),
+                  shrinkRate: s.shrinkRate
                 }
               }
             }}>

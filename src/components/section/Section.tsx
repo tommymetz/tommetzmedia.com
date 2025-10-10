@@ -4,7 +4,7 @@ import './Section.css'
 export const Section = ({
   headline,
   children
-}:{
+}: {
   headline?: string,
   children?: React.ReactNode
 }) => {

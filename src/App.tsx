@@ -11,9 +11,9 @@ import pkg from '../package.json'
 function App() {
   const wrapRef = React.useRef<HTMLDivElement>(null)
   const containerRef = React.useRef<HTMLDivElement>(null)
-  const [document, setDocument] = React.useState<any | null>(null)
+  const [prismicDoc, setPrismicDoc] = React.useState<any | null>(null)
   const [state, setState] = React.useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
-  const data = document?.data
+  const data = prismicDoc?.data
 
   // Load Prismic singleton document (homepage)
   useEffect(() => {
@@ -23,10 +23,12 @@ function App() {
         setState('loading')
         const doc = await prismicClient.getSingle('homepage')
         if (!cancelled) {
-          setDocument(doc)
+          setPrismicDoc(doc)
           setState('loaded')
         }
-      } catch (e) {
+      } catch (error) {
+        // surface the error for debugging and set error state
+        console.error(error)
         if (!cancelled) setState('error')
       }
     }
@@ -77,11 +79,11 @@ function App() {
         </Section>
         <Section headline="Services">
           <ul id="services">
-            {data?.services.map((service: any, index: number) => (
+            {Array.isArray(data?.services) && data.services.map((service: any, index: number) => (
               <li key={index}>
                 {service.service[0].text}
               </li>
-            ))}
+                ))}
           </ul>
           {/* <ul id="tools">
             <li>
@@ -94,12 +96,12 @@ function App() {
         </Section>
         <Section headline="Featured Work">
           <ul id="projects">
-            {data?.projects.map((project: any, index: number) => (
+            {Array.isArray(data?.projects) && data.projects.map((project: any, index: number) => (
               <li key={index}>
-                <a href={project.project_link.url} target="_blank" className="work">
-                  {project.project_image.url && <img src={project.project_image.url} />}
+                <a href={project.project_link.url} target="_blank" rel="noopener noreferrer" className="work">
+                  {project.project_image.url && <img src={project.project_image.url} alt={project.project_link_title?.[0]?.text ?? 'project image'} />}
                 </a>
-                <a href={project.project_link.url} target="_blank" className="strong">{project.project_link_title[0].text}</a>
+                <a href={project.project_link.url} target="_blank" rel="noopener noreferrer" className="strong">{project.project_link_title[0].text}</a>
                 : {project.project_description[0].text}
               </li>
             ))}
@@ -110,9 +112,9 @@ function App() {
             <li>
               <span className="strong">Past/Present:</span><br />
               <div id="ongoing-clients">
-                {data?.ongoing_clients.map((client: any, index: number) => (
+                {Array.isArray(data?.ongoing_clients) && data.ongoing_clients.map((client: any, index: number) => (
                   <span key={index}>
-                    <a href={client.ongoing_clients_link.url} target="_blank">{client.ongoing_clients_title[0].text}</a>
+                    <a href={client.ongoing_clients_link.url} target="_blank" rel="noopener noreferrer">{client.ongoing_clients_title[0].text}</a>
                     {index < data.ongoing_clients.length - 1 && ', '}
                   </span>
                 ))}
