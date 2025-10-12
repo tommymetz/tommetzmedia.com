@@ -1,50 +1,99 @@
-# React + TypeScript + Vite
+# Tom Metz Media LLC
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern portfolio website showcasing full-stack web development capabilities, built with React and Three.js.
 
-Currently, two official plugins are available:
+## Technology Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Frontend Framework
+- **React 19.2** - Modern UI library with JSX syntax
+- **TypeScript 5.9** - Type-safe JavaScript development
+- **React Three Fiber 9.3** - React renderer for Three.js
 
-## Expanding the ESLint configuration
+### Build Tools & Development
+- **Vite 7.1** - Fast build tool with HMR (Hot Module Replacement)
+- **ESLint 9.37** - Code quality and consistency
+- **TypeScript ESLint 8.46** - TypeScript-specific linting rules
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Content Management
+- **Prismic CMS** - Headless CMS integration via `@prismicio/client`
+- Content is fetched dynamically from the Prismic API
+- Repository name: `tommetzmediallc`
 
-- Configure the top-level `parserOptions` property like this:
+### 3D Graphics & Animation
+- **Three.js 0.180** - WebGL-based 3D graphics library
+- Custom gravitational physics simulation for background spheres
+- Dynamic lighting with ambient and hemisphere lights
+- Interactive scene that responds to scroll position
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Component Architecture
+```
+src/
+├── components/
+│   ├── header/          - Site header component
+│   ├── section/         - Reusable section wrapper
+│   ├── three-background/ - 3D background scene with physics
+│   └── project-card/    - Project display cards
+├── services/
+│   └── prismic/         - Prismic CMS client configuration
+├── App.tsx              - Main application component
+└── main.tsx             - Application entry point
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Key Technical Features
+- **Single Page Application (SPA)** - Client-side rendered React application
+- **Headless CMS Integration** - Content managed via Prismic
+- **3D Background Physics** - Custom gravitational simulation with sphere collision
+- **Responsive Design** - Mobile-first approach
+- **SEO Optimization** - Meta tags, structured data, and social media integration
+- **Analytics** - Google Analytics integration
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Runtime Requirements
+- **Node.js**: ^20.19.0 or >=22.12.0 (specified in `.nvmrc` and `package.json`)
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+## Development
+
+### Install Dependencies
+```bash
+npm install
 ```
+
+### Start Development Server
+```bash
+npm run dev
+```
+This starts Vite's development server with HMR enabled.
+
+### Build for Production
+```bash
+npm run build
+```
+Compiles TypeScript and bundles the application for production deployment.
+
+### Lint Code
+```bash
+npm run lint
+```
+Runs ESLint to check code quality and style consistency.
+
+### Preview Production Build
+```bash
+npm run preview
+```
+Serves the production build locally for testing.
+
+## Architecture Notes
+
+### State Management
+- Uses React's built-in hooks (`useState`, `useEffect`, `useRef`)
+- No external state management library required
+
+### Rendering Strategy
+- Client-side rendering with React DOM
+- Content fetched asynchronously from Prismic API on initial load
+- Three.js scene rendered via Canvas component from React Three Fiber
+
+### Performance Optimizations
+- `useRef` for DOM references to avoid unnecessary re-renders
+- Pre-computed sphere properties to minimize runtime calculations
+- Request animation frame (RAF) for smooth 3D animations
+- Component-level code organization for maintainability
