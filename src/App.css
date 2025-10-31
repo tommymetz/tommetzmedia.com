@@ -22,64 +22,6 @@ body{
   position: relative;
 }
 
-p{
-	margin:5px 0px 10px 0px;
-}
-
-h1, h2{
-	font-size:25px;
-	font-weight: bold;
-	text-transform:uppercase;
-	margin:0px;
-	margin-bottom:20px;
-}
-@media(max-width:768px){
-  h1, h2{
-    font-size:20px;
-  }
-}
-
-h3{
-	font-weight:normal;
-	text-decoration:underline;
-	font-size:16px;
-	margin:0px;
-}
-
-a, a:hover{
-  color:var(--primary-color);
-  text-decoration:none;
-}
-
-/* ul{
-	padding-left:0px;
-	max-width:400px;
-}
-@media(max-width:400px){
-  ul{
-    padding-left:0px;
-  }
-}
-
-ul li{
-  margin-bottom:20px;
-  list-style-type:none;
-  background-color:#fff;
-  padding:10px;
-}
-ul li img{
-  width:100%;
-} */
-
-.rollover-text-child{
-	display:inline-block;
-	margin-right:5px;
-}
-
-.strong{
-	text-decoration: underline;
-}
-
 .fade-in{
   opacity:0;
   animation: fadeIn 1s ease-in-out forwards;
