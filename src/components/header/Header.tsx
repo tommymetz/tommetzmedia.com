@@ -1,4 +1,5 @@
 import './Header.css'
+import { Text } from '../text/Text'
 
 export const Header = ({
   headline,
@@ -11,15 +12,15 @@ export const Header = ({
 }) => {
   return (
     <header>
-      <h1 className="headline">
+      <Text level="h1" headline>
         {headline}
-      </h1>
-      <h1 className="tagline-a">
+      </Text>
+      <Text level="h1">
         {taglineA}
-      </h1>
-      <h1 className="tagline-b">
+      </Text>
+      <Text level="h1">
         {taglineB}
-      </h1>
+      </Text>
     </header>
   )
 }

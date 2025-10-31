@@ -1,5 +1,6 @@
 import React from 'react'
 import './Section.css'
+import { Text } from '../text/Text'
 
 export const Section = ({
   headline,
@@ -10,7 +11,7 @@ export const Section = ({
 }) => {
   return (
     <div className="section">
-      {headline && <h2>{headline}</h2>}
+      {headline && <Text level="h2">{headline}</Text>}
       {children}
     </div>
   )

@@ -1,4 +1,5 @@
 import './ProjectCard.css'
+import { Text } from '../text/Text'
 
 export const ProjectCard = ({
   title,
@@ -17,11 +18,15 @@ export const ProjectCard = ({
         {image && <img src={image} alt={title ?? 'project image'} />}
       </a>
       {title && (
-        <a href={link} target="_blank" rel="noopener noreferrer" className="strong">
-          {title}
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          <Text level="h3">{title}</Text>
         </a>
       )}
-      {description && <div className="project-description">{description}</div>}
+      {description && (
+        <Text level="body">
+          {description}
+        </Text>
+      )}
     </div>
   )
 }
