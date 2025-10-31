@@ -7,7 +7,11 @@ export const Image = ({
   src: string
   alt?: string
 }) => {
-  return <img className="image" src={src} alt={alt ?? ''} />
+  return (
+    <div className="image">
+      <img className="image__img" src={src} alt={alt ?? ''} />
+    </div>
+  )
 }
 
 export default Image

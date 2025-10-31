@@ -1,7 +1,7 @@
 .section{
   margin-top: 35px;
   margin-bottom: 60px;
-  max-width: 550px;
+  max-width: 600px;
 }
 @media(max-width:768px){
   .section-content {
@@ -17,10 +17,49 @@
   margin-top: 20px;
   padding-left: 30px;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
+  gap: 20px;
 }
 @media(max-width:768px){
   .section-content {
     padding-left: 0px;
+  }
+}
+
+/* Columns support: when a columns-N class is applied, layout children into N flexible columns */
+.section-content.columns-1 {
+  flex-direction: column;
+}
+.section-content.columns-2,
+.section-content.columns-3,
+.section-content.columns-4 {
+  flex-direction: row;
+}
+.section-content.columns-2 > * {
+  flex: 1 1 calc(50% - 12px);
+  max-width: calc(50% - 12px);
+}
+.section-content.columns-3 > * {
+  flex: 1 1 calc(33.333% - 16px);
+  max-width: calc(33.333% - 16px);
+}
+.section-content.columns-4 > * {
+  flex: 1 1 calc(25% - 18px);
+  max-width: calc(25% - 18px);
+}
+
+@media(max-width:768px){
+  /* stack columns on small screens */
+  .section-content.columns-2,
+  .section-content.columns-3,
+  .section-content.columns-4 {
+    flex-direction: column;
+  }
+  .section-content.columns-2 > *,
+  .section-content.columns-3 > *,
+  .section-content.columns-4 > * {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 }

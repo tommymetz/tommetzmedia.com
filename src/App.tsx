@@ -68,7 +68,7 @@ function App() {
           taglineA={data?.tagline_a[0].text}
           taglineB={data?.tagline_b[0].text}
         />
-        <Section headline="About">
+        <Section headline="About" columns={1}>
           <ContentCard image={data?.about_picture.url}>
             {data?.about_text[0].text}
           </ContentCard>
@@ -100,7 +100,7 @@ function App() {
             </ContentCard>
           ))}
         </Section>
-        <Section headline="Clients">
+        <Section headline="Clients" columns={1}>
           <ContentCard
             title="Past/Present"
           >
@@ -114,10 +114,10 @@ function App() {
         </Section>
         <Section headline="Contact">
           <ContentCard>
-            <>
-              <a href="mailto:tom@tommetzmedia.com">tom@tommetzmedia.com</a><br /> 
-              <a href="https://github.com/tommymetz" target="_blank" rel="noopener noreferrer">Github</a>
-            </>
+            <a href="mailto:tom@tommetzmedia.com">tom@tommetzmedia.com</a><br /> 
+          </ContentCard>
+          <ContentCard>
+            <a href="https://github.com/tommymetz" target="_blank" rel="noopener noreferrer">Github</a>
           </ContentCard>
           <div className="site-version">v{pkg.version}</div>
         </Section>
