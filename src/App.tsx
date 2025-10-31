@@ -4,7 +4,8 @@ import {
   Header,
   Section,
   ThreeBackground,
-  ProjectCard
+  ProjectCard,
+  Image
 } from './components'
 import './App.css'
 import pkg from '../package.json'
@@ -71,7 +72,7 @@ function App() {
         <Section headline="About">
           <ul>
             <li>
-              <img id="about-picture" src={data?.about_picture.url} />
+              <Image src={data?.about_picture.url} alt="About me" />
             </li>
             <li id="about-text">
               <div dangerouslySetInnerHTML={{__html: data?.about_text[0].text}} />

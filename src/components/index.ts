@@ -1,4 +1,6 @@
 export * from './header'
+export * from './image'
 export * from './section'
+export * from './text'
 export * from './three-background'
 export * from './project-card'

@@ -1,5 +1,6 @@
 import './ProjectCard.css'
 import { Text } from '../text/Text'
+import Image from '../image/Image'
 
 export const ProjectCard = ({
   title,
@@ -15,7 +16,7 @@ export const ProjectCard = ({
   return (
     <div className="project-card">
       <a href={link} target="_blank" rel="noopener noreferrer" className="work">
-        {image && <img src={image} alt={title ?? 'project image'} />}
+        {image && <Image src={image} alt={title ?? 'project image'} />}
       </a>
       {title && (
         <a href={link} target="_blank" rel="noopener noreferrer">
