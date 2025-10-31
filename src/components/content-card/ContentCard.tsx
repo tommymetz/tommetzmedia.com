@@ -1,8 +1,8 @@
-import './ProjectCard.css'
+import './ContentCard.css'
 import { Text } from '../text/Text'
 import Image from '../image/Image'
 
-export const ProjectCard = ({
+export const ContentCard = ({
   title,
   link,
   image,
@@ -14,7 +14,7 @@ export const ProjectCard = ({
   description?: string
 }) => {
   return (
-    <div className="project-card">
+    <div className="content-card">
       <a href={link} target="_blank" rel="noopener noreferrer" className="work">
         {image && <Image src={image} alt={title ?? 'project image'} />}
       </a>
@@ -32,4 +32,4 @@ export const ProjectCard = ({
   )
 }
 
-export default ProjectCard
+export default ContentCard

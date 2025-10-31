@@ -4,7 +4,7 @@ import {
   Header,
   Section,
   ThreeBackground,
-  ProjectCard,
+  ContentCard,
   Image
 } from './components'
 import './App.css'
@@ -100,7 +100,7 @@ function App() {
           <ul id="projects">
             {Array.isArray(data?.projects) && data.projects.map((project: any, index: number) => (
               <li key={index}>
-                <ProjectCard
+                <ContentCard
                   title={project.project_link_title?.[0]?.text}
                   link={project.project_link?.url}
                   image={project.project_image?.url}
@@ -114,7 +114,7 @@ function App() {
           <ul id="mastering">
             {Array.isArray(data?.mastering) && data.mastering.map((m: any, i: number) => (
               <li key={i}>
-                <ProjectCard
+                <ContentCard
                   title={m.title?.[0]?.text}
                   link={m.link?.url ?? m.link?.url}
                   image={m.image_link?.url ?? m.image_link?.url}
