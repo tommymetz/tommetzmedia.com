@@ -6,7 +6,6 @@ type Level = 'h1' | 'h2' | 'h3' | 'body'
 type Props = {
   level?: Level
   headline?: boolean
-  ignoreLinkStyles?: boolean
   children?: React.ReactNode
   className?: string
 } & React.HTMLAttributes<HTMLElement>
@@ -16,7 +15,6 @@ export const Text = ({
   headline = false,
   children,
   className = '',
-  ignoreLinkStyles = false,
   ...rest
 }: Props) => {
   const Tag: any = level === 'body' ? 'p' : level
@@ -24,7 +22,6 @@ export const Text = ({
     'text',
     `text--${level}`,
     headline ? 'text--headline' : '',
-    ignoreLinkStyles ? 'text--ignore-link' : '',
     className,
   ]
     .filter(Boolean)

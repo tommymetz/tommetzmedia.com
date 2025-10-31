@@ -42,13 +42,7 @@
   margin: 0px;
 }
 
-.text--ignore-link{
-  text-decoration: none;
-  color: var(--text-color);
-  font-weight: inherit;
-}
 
-/* Headline modifier — mirrors former `header .headline` styles */
 .text--headline{
   color: #1f94b5;
   font-size: 50px;

@@ -1,25 +1,30 @@
 import './ContentCard.css'
 import { Text } from '../text/Text'
 import Image from '../image/Image'
+import type { ReactNode } from 'react'
 
 export const ContentCard = ({
   title,
   image,
   link,
-  body,
+  children,
 }: {
-  title: string
+  title?: string
   image?: string
   link?: string
-  body?: string
+  children?: ReactNode
 }) => {
   const Content = () => (
     <>
       {image && <Image src={image} alt={title ?? 'project image'} />}
-      {title && <Text level="h3" ignoreLinkStyles>{title}</Text>}
-      {body && (
-        <Text level="body" ignoreLinkStyles>
-          <div dangerouslySetInnerHTML={{__html: body}} />
+      {title && <Text level="h3">{title}</Text>}
+      {children && (
+        <Text level="body">
+          {typeof children === 'string' || typeof children === 'number' ? (
+            <div dangerouslySetInnerHTML={{ __html: String(children) }} />
+          ) : (
+            <>{children}</>
+          )}
         </Text>
       )}
     </>
