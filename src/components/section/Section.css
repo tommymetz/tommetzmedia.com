@@ -1,9 +1,26 @@
 .section{
   margin-top: 35px;
   margin-bottom: 60px;
-  max-width: 680px;
+  max-width: 550px;
+}
+@media(max-width:768px){
+  .section-content {
+    max-width: 100%;
+  }
 }
 
 .section:last-child{
   margin-bottom: 100px;
+}
+
+.section-content {
+  margin-top: 20px;
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+}
+@media(max-width:768px){
+  .section-content {
+    padding-left: 0px;
+  }
 }

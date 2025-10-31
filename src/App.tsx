@@ -70,59 +70,35 @@ function App() {
           taglineB={data?.tagline_b[0].text}
         />
         <Section headline="About">
-          <ul>
-            <li>
-              <Image src={data?.about_picture.url} alt="About me" />
-            </li>
-            <li id="about-text">
-              <div dangerouslySetInnerHTML={{__html: data?.about_text[0].text}} />
-            </li>
-          </ul>
+          <ContentCard 
+            image={data?.about_picture.url}
+            body={data?.about_text[0].text}
+          />
         </Section>
         <Section headline="Services">
-          <ul id="services">
-            {Array.isArray(data?.services) && data.services.map((service: any, index: number) => (
-              <li key={index}>
-                {service.service[0].text}
-              </li>
-                ))}
-          </ul>
-          {/* <ul id="tools">
-            <li>
-              <span className="strong">My Tools: </span>
-              <span id="tools-list">
-                {data?.tools_list[0].text}
-              </span>
-            </li>
-          </ul> */}
+          {Array.isArray(data?.services) && data.services.map((service: any, index: number) => (
+            <ContentCard title={service.service[0].text} noTitleUnderline />
+          ))}
         </Section>
         <Section headline="Featured Work">
-          <ul id="projects">
-            {Array.isArray(data?.projects) && data.projects.map((project: any, index: number) => (
-              <li key={index}>
-                <ContentCard
-                  title={project.project_link_title?.[0]?.text}
-                  link={project.project_link?.url}
-                  image={project.project_image?.url}
-                  description={project.project_description?.[0]?.text}
-                />
-              </li>
-            ))}
-          </ul>
+          {Array.isArray(data?.projects) && data.projects.map((project: any, index: number) => (
+            <ContentCard
+              title={project.project_link_title?.[0]?.text}
+              link={project.project_link?.url}
+              image={project.project_image?.url}
+              body={project.project_description?.[0]?.text}
+            />
+          ))}
         </Section>
         <Section headline="Music Mastering">
-          <ul id="mastering">
-            {Array.isArray(data?.mastering) && data.mastering.map((m: any, i: number) => (
-              <li key={i}>
-                <ContentCard
-                  title={m.title?.[0]?.text}
-                  link={m.link?.url ?? m.link?.url}
-                  image={m.image_link?.url ?? m.image_link?.url}
-                  description={m.description?.[0]?.text}
-                />
-              </li>
-            ))}
-          </ul>
+          {Array.isArray(data?.mastering) && data.mastering.map((m: any, i: number) => (
+            <ContentCard
+              title={m.title?.[0]?.text}
+              link={m.link?.url ?? m.link?.url}
+              image={m.image_link?.url ?? m.image_link?.url}
+              body={m.description?.[0]?.text}
+            />
+          ))}
         </Section>
         <Section headline="Clients">
           <ul>

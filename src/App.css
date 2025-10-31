@@ -1,7 +1,13 @@
+:root{
+  /* site-wide variables */
+  --text-color: #2d474f;
+  --primary-color: #1f94b5;
+}
+
 body{
-	font-family: Helvetica, Arial, sans-serif;
-	background-color:#ece9e6;
-	color:#2d474f;
+  background-color:#ece9e6;
+    font-family: Helvetica, Arial, sans-serif;
+    color:var(--text-color);
 	font-size:16px;
 	padding:0px;
 	margin:0px;
@@ -40,8 +46,11 @@ h3{
 	margin:0px;
 }
 
-
-a{
+a, a:hover{
+  color:var(--primary-color);
+  text-decoration:none;
+}
+/* a{
 	color:#1f94b5;
 	text-decoration:none;
 }
@@ -53,10 +62,10 @@ a:hover{
 a.work{
 	margin-bottom:5px;
 	display:block;
-}
+} */
 
 ul{
-	padding-left:24px;
+	padding-left:0px;
 	max-width:400px;
 }
 @media(max-width:400px){
@@ -116,7 +125,7 @@ ul li img{
 
 .site-version{
   position: relative;
-  left: 25px;
+  /* left: 25px; */
   font-size: 10px;
   color: rgba(73, 95, 101, 0.7);
   z-index: 9999;

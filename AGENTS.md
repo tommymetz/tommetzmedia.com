@@ -1,1 +1,3 @@
 Components: When creating a new component, always include an index.ts file that exports the component. And update the /components/index.ts to export it as well.
+
+Text: All text should be wrapped in a Text component.

@@ -4,7 +4,7 @@ import { Text } from '../text/Text'
 
 export const Section = ({
   headline,
-  children
+  children,
 }: {
   headline?: string,
   children?: React.ReactNode
@@ -12,7 +12,9 @@ export const Section = ({
   return (
     <div className="section">
       {headline && <Text level="h2">{headline}</Text>}
-      {children}
+      <div className="section-content">
+        {children}
+      </div>
     </div>
   )
 }

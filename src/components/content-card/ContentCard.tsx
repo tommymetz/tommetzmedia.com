@@ -4,29 +4,35 @@ import Image from '../image/Image'
 
 export const ContentCard = ({
   title,
-  link,
   image,
-  description
+  link,
+  body,
 }: {
-  title?: string
-  link?: string
+  title: string
   image?: string
-  description?: string
+  link?: string
+  body?: string
 }) => {
+  const Content = () => (
+    <>
+      {image && <Image src={image} alt={title ?? 'project image'} />}
+      {title && <Text level="h3" ignoreLinkStyles>{title}</Text>}
+      {body && (
+        <Text level="body" ignoreLinkStyles>
+          <div dangerouslySetInnerHTML={{__html: body}} />
+        </Text>
+      )}
+    </>
+  )
+
   return (
     <div className="content-card">
-      <a href={link} target="_blank" rel="noopener noreferrer" className="work">
-        {image && <Image src={image} alt={title ?? 'project image'} />}
-      </a>
-      {title && (
-        <a href={link} target="_blank" rel="noopener noreferrer">
-          <Text level="h3">{title}</Text>
+      {link ? (
+        <a href={link} target="_blank" rel="noopener noreferrer" className="work">
+          <Content />
         </a>
-      )}
-      {description && (
-        <Text level="body">
-          {description}
-        </Text>
+      ) : (
+        <Content />
       )}
     </div>
   )
