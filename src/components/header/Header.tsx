@@ -15,7 +15,7 @@ export const Header = ({
       <Text level="h1" headline>
         {headline}
       </Text>
-      <Text level="h1">
+      <Text level="h1" style={{ marginBottom: '0'}}>
         {taglineA}
       </Text>
       <Text level="h1">
