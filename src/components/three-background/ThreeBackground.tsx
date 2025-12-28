@@ -181,25 +181,23 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number | un
         const sphereRadius = s.radius
         const sphereColor = s.color
         return (
-          <group position={position} key={i}>
-            <mesh ref={el => {
-              if (el) {
-                sphereRefs.current[i] = el
-                // Initialize sphere data with small random velocity
-                const randomVelocity = s.velocity
-                el.scale.setScalar(s.initialScale)
-                sphereData.current[i] = {
-                  mesh: el,
-                  velocity: randomVelocity,
-                  mass: Math.max(0.1, (s.initialScale * s.initialScale * s.initialScale) * 5),
-                  shrinkRate: s.shrinkRate
-                }
+          <mesh position={position} key={i} ref={el => {
+            if (el) {
+              sphereRefs.current[i] = el
+              // Initialize sphere data with small random velocity
+              const randomVelocity = s.velocity
+              el.scale.setScalar(s.initialScale)
+              sphereData.current[i] = {
+                mesh: el,
+                velocity: randomVelocity,
+                mass: Math.max(0.1, (s.initialScale * s.initialScale * s.initialScale) * 5),
+                shrinkRate: s.shrinkRate
               }
-            }}>
-              <sphereGeometry args={[sphereRadius, 16, 16]} />
-              <meshStandardMaterial color={sphereColor} flatShading={true} />
-            </mesh>
-          </group>
+            }
+          }}>
+            <sphereGeometry args={[sphereRadius, 16, 16]} />
+            <meshStandardMaterial color={sphereColor} flatShading={true} />
+          </mesh>
         )
       })}
     </group>
