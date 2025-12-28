@@ -67,3 +67,20 @@ a, a:hover{
     font-size: 30px;
   }
 }
+
+@keyframes letter-appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-letter {
+  display: inline-block;
+  opacity: 0;
+  animation: letter-appear 0.5s forwards;
+}
