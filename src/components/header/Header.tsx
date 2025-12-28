@@ -12,7 +12,7 @@ export const Header = ({
 }) => {
   return (
     <header>
-      <Text level="h1" headline>
+      <Text level="h1" headline animate>
         {headline}
       </Text>
       <Text level="h1" style={{ marginBottom: '0'}}>

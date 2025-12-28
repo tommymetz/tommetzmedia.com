@@ -6,6 +6,7 @@ type Level = 'h1' | 'h2' | 'h3' | 'body'
 type Props = {
   level?: Level
   headline?: boolean
+  animate?: boolean
   children?: React.ReactNode
   className?: string
 } & React.HTMLAttributes<HTMLElement>
@@ -13,6 +14,7 @@ type Props = {
 export const Text = ({
   level = 'body',
   headline = false,
+  animate = false,
   children,
   className = '',
   ...rest
@@ -27,9 +29,22 @@ export const Text = ({
     .filter(Boolean)
     .join(' ')
 
+  const animatedChildren =
+    animate && typeof children === 'string'
+      ? children.split('').map((char, index) => (
+          <span
+            key={index}
+            className="animated-letter"
+            style={{ animationDelay: `${index * 0.05}s` }}
+          >
+            {char === ' ' ? '\u00A0' : char}
+          </span>
+        ))
+      : children
+
   return (
     <Tag className={classes} {...(rest as any)}>
-      {children}
+      {animatedChildren}
     </Tag>
   )
 }
