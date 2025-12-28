@@ -10,11 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@prismicio/client": "^7.20.1",
-    "@prismicio/react": "^3.2.1",
-    "@react-three/fiber": "^9.3.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "@prismicio/client": "^7.21.1",
+    "@prismicio/react": "^3.2.2",
+    "@react-three/fiber": "^9.4.2",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "three": "^0.180.0"
   },
   "devDependencies": {
