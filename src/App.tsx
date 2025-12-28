@@ -73,7 +73,7 @@ function App() {
             {data?.about_text[0].text}
           </ContentCard>
         </Section>
-        <Section headline="Services">
+        <Section headline="Services" columns={1}>
           {Array.isArray(data?.services) && data.services.map((service: any) => (
             <ContentCard>{service.service[0].text}</ContentCard>
           ))}
