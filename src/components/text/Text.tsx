@@ -37,7 +37,7 @@ export const Text = ({
             className="animated-letter"
             style={{ animationDelay: `${index * 0.05}s` }}
           >
-            {char}
+            {char === ' ' ? '\u00A0' : char}
           </span>
         ))
       : children
