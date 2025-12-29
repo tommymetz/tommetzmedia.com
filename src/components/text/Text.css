@@ -1,69 +1,75 @@
-a, a:hover{
-  color:var(--primary-color);
-  text-decoration:none;
+a,
+a:hover {
+  color: var(--primary-color);
+  text-decoration: none;
 }
 
-.text{ 
+.text {
   margin: 0;
   padding: 0;
   line-height: 1.2em;
-  color:var(--text-color);
+  color: var(--text-color);
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.text--h1{
+.text--h1 {
   font-size: 35px;
   margin: 0 0 5px 0;
   padding: 0px;
   text-transform: uppercase;
 }
-@media(max-width:768px){
-  .text--h1{
+
+@media(max-width:768px) {
+  .text--h1 {
     font-size: 25px;
   }
 }
 
-.text--h2{
+.text--h2 {
   font-size: 30px;
   margin: 0 0 5px 0;
   text-transform: uppercase;
 }
-@media(max-width:768px){
-  .text--h2{
+
+@media(max-width:768px) {
+  .text--h2 {
     font-size: 22px;
   }
 }
 
-.text--h3{
+.text--h3 {
   font-size: 18px;
   margin: 0 0 5px 0;
   font-weight: normal;
   text-decoration: underline;
 }
-@media(max-width:768px){
-  .text--h3{
+
+@media(max-width:768px) {
+  .text--h3 {
     font-size: 16px;
   }
 }
 
-.text--body{
+.text--body {
   font-size: 16px;
   margin: 0px;
 }
-@media(max-width:768px){
-  .text--body{
+
+@media(max-width:768px) {
+  .text--body {
     font-size: 14px;
   }
 }
 
-.text--headline{
+.text--headline {
   color: #1f94b5;
   font-size: 50px;
   padding: 0px;
   margin: 0px;
 }
-@media(max-width:768px){
-  .text--headline{
+
+@media(max-width:768px) {
+  .text--headline {
     font-size: 30px;
   }
 }
@@ -71,11 +77,12 @@ a, a:hover{
 @keyframes letter-appear {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translate(10px);
   }
+
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 

@@ -15,10 +15,10 @@ export const Header = ({
       <Text level="h1" headline animate>
         {headline}
       </Text>
-      <Text level="h1" style={{ marginBottom: '0'}}>
+      <Text level="h1" animate animationDelaySeconds={0.25} style={{ marginBottom: '0' }}>
         {taglineA}
       </Text>
-      <Text level="h1">
+      <Text level="h1" animate animationDelaySeconds={0.5}>
         {taglineB}
       </Text>
     </header>
