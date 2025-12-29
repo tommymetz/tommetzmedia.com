@@ -13,19 +13,25 @@ export const Image = ({
 
   useEffect(() => {
     const img = new window.Image()
-    const minLoadingTime = 500 // 0.5 second
+    const minLoadingTime = 1000 // 1 second
     const startTime = Date.now()
+    let timeoutId: ReturnType<typeof setTimeout>
 
     const finishLoading = () => {
       const elapsedTime = Date.now() - startTime
       const remainingTime = minLoadingTime - elapsedTime
-      setTimeout(() => setIsLoading(false), remainingTime > 0 ? remainingTime : 0)
+      timeoutId = setTimeout(() => setIsLoading(false), remainingTime > 0 ? remainingTime : 0)
     }
 
     img.onload = finishLoading
     img.onerror = finishLoading
     img.src = src
 
+    return () => {
+      clearTimeout(timeoutId)
+      img.onload = null
+      img.onerror = null
+    }
   }, [src])
 
   return (
