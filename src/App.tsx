@@ -60,7 +60,7 @@ function App() {
   }, [])
   
   return (
-    <div ref={wrapRef} id="wrap">
+    <div ref={wrapRef} id="wrap" data-testid="wrap">
       <ThreeBackground scrollRef={scrollRef} />
       <div ref={containerRef} id="container">
         <Header
