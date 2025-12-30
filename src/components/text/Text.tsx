@@ -45,7 +45,7 @@ export const Text = ({
       : children
 
   return (
-    <Tag className={classes} {...(rest as any)}>
+    <Tag className={classes} {...(rest as any)} data-testid="text-component">
       {animatedChildren}
     </Tag>
   )
