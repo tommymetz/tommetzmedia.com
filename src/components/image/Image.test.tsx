@@ -1,4 +1,4 @@
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { Image } from './Image';
 
@@ -10,7 +10,7 @@ describe('Image', () => {
     vi.useFakeTimers();
 
     // Mock the Image constructor to capture callbacks
-    global.Image = class MockImage {
+    window.Image = class MockImage {
       onload: (() => void) | null = null;
       onerror: (() => void) | null = null;
       src = '';
