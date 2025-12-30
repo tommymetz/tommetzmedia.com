@@ -41,6 +41,18 @@ import App from './App';
 import { prismicClient } from './services';
 
 const mockPrismicData = {
+  id: 'mock-id',
+  uid: 'homepage',
+  url: null,
+  type: 'homepage',
+  href: 'https://mock.prismic.io/api/v2/documents/mock-id',
+  tags: [],
+  first_publication_date: '2024-01-01T00:00:00+0000',
+  last_publication_date: '2024-01-01T00:00:00+0000',
+  slugs: [],
+  linked_documents: [],
+  lang: 'en-us',
+  alternate_languages: [],
   data: {
     headline: [{ text: 'Mock Headline' }],
     tagline_a: [{ text: 'Mock Tagline A' }],
