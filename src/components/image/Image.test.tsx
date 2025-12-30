@@ -5,9 +5,43 @@ import { Image } from './Image';
 describe('Image', () => {
   let imageLoadCallback: (() => void) | null = null;
   let imageErrorCallback: (() => void) | null = null;
+  let intersectionCallback: IntersectionObserverCallback | null = null;
+  let observedElement: Element | null = null;
+
+  const triggerIntersection = (isIntersecting: boolean) => {
+    if (intersectionCallback && observedElement) {
+      intersectionCallback(
+        [{ isIntersecting, target: observedElement } as IntersectionObserverEntry],
+        {} as IntersectionObserver
+      );
+    }
+  };
 
   beforeEach(() => {
     vi.useFakeTimers();
+
+    // Mock IntersectionObserver
+    window.IntersectionObserver = class MockIntersectionObserver {
+      constructor(callback: IntersectionObserverCallback) {
+        intersectionCallback = callback;
+      }
+
+      observe(element: Element) {
+        observedElement = element;
+      }
+
+      disconnect() {
+        observedElement = null;
+      }
+
+      unobserve() {}
+      takeRecords() {
+        return [];
+      }
+      root = null;
+      rootMargin = '';
+      thresholds = [];
+    } as any;
 
     // Mock the Image constructor to capture callbacks
     window.Image = class MockImage {
@@ -39,6 +73,8 @@ describe('Image', () => {
     vi.useRealTimers();
     imageLoadCallback = null;
     imageErrorCallback = null;
+    intersectionCallback = null;
+    observedElement = null;
   });
 
   it('renders loader initially', () => {
@@ -47,8 +83,28 @@ describe('Image', () => {
     expect(loaderElement).toBeInTheDocument();
   });
 
-  it('displays image after loading completes', async () => {
+  it('does not start loading image until visible', () => {
+    render(<Image src="/test-image.jpg" />);
+
+    // Image should not have started loading yet
+    expect(imageLoadCallback).toBeNull();
+
+    // Trigger visibility
+    act(() => {
+      triggerIntersection(true);
+    });
+
+    // Now image loading should have started (callbacks should be set)
+    expect(imageLoadCallback).not.toBeNull();
+  });
+
+  it('displays image after becoming visible and loading completes', async () => {
     render(<Image src="/test-image.jpg" alt="Test image" />);
+
+    // Trigger visibility
+    act(() => {
+      triggerIntersection(true);
+    });
 
     // Trigger the image load callback
     await act(async () => {
@@ -67,6 +123,11 @@ describe('Image', () => {
   it('renders image with empty alt text when alt prop is not provided', async () => {
     render(<Image src="/test-image.jpg" />);
 
+    // Trigger visibility
+    act(() => {
+      triggerIntersection(true);
+    });
+
     await act(async () => {
       if (imageLoadCallback) {
         imageLoadCallback();
@@ -82,6 +143,11 @@ describe('Image', () => {
   it('displays image after error occurs', async () => {
     render(<Image src="/invalid-image.jpg" alt="Invalid image" />);
 
+    // Trigger visibility
+    act(() => {
+      triggerIntersection(true);
+    });
+
     await act(async () => {
       if (imageErrorCallback) {
         imageErrorCallback();
@@ -95,6 +161,11 @@ describe('Image', () => {
 
   it('respects minimum loading time of 1 second', async () => {
     render(<Image src="/test-image.jpg" />);
+
+    // Trigger visibility
+    act(() => {
+      triggerIntersection(true);
+    });
 
     // Trigger immediate load
     await act(async () => {
@@ -127,6 +198,11 @@ describe('Image', () => {
   it('cleans up on unmount', () => {
     const { unmount } = render(<Image src="/test-image.jpg" />);
 
+    // Trigger visibility so image loading starts
+    act(() => {
+      triggerIntersection(true);
+    });
+
     // Store references to callbacks before unmount
     const loadCallback = imageLoadCallback;
     const errorCallback = imageErrorCallback;
@@ -134,9 +210,27 @@ describe('Image', () => {
     // Unmount the component
     unmount();
 
-    // Verify cleanup - callbacks should be cleared
-    // The component sets onload and onerror to null in cleanup
+    // Verify cleanup - callbacks should have been set before unmount
     expect(loadCallback).not.toBeNull();
     expect(errorCallback).not.toBeNull();
+  });
+
+  it('only triggers loading once when intersection occurs', () => {
+    render(<Image src="/test-image.jpg" />);
+
+    // Trigger visibility multiple times
+    act(() => {
+      triggerIntersection(true);
+    });
+
+    const firstCallback = imageLoadCallback;
+
+    // Simulate another intersection (shouldn't happen due to disconnect, but testing robustness)
+    act(() => {
+      triggerIntersection(true);
+    });
+
+    // Callback reference should remain the same (no re-initialization)
+    expect(imageLoadCallback).toBe(firstCallback);
   });
 });
