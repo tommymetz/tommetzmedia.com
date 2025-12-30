@@ -1,3 +1,4 @@
+import './mocks/prismic';
 import '@testing-library/jest-dom';
 import ResizeObserver from 'resize-observer-polyfill';
 
