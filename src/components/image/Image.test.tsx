@@ -10,11 +10,11 @@ class MockImage {
   onerror: () => void = () => {};
   src: string = '';
   constructor() {
-    imageInstance = this; // Capture the instance
+    imageInstance = this; // Capture the instance for the test to use
   }
 }
 
-// Mock window.Image at the top level
+// Stub the global Image constructor BEFORE the component is imported
 vi.stubGlobal('Image', MockImage);
 
 import { Image } from './Image'; // Now import the component
