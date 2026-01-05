@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Loader } from '../loader/Loader'
+import { useWhenVisible } from '../../hooks'
 import './Image.css'
 
 export const Image = ({
@@ -9,31 +10,9 @@ export const Image = ({
   src: string
   alt?: string
 }) => {
-  const [isVisible, setIsVisible] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
-
-  // Observe when the component becomes visible
-  useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0 }
-    )
-
-    observer.observe(container)
-
-    return () => {
-      observer.disconnect()
-    }
-  }, [])
+  const isVisible = useWhenVisible(containerRef)
 
   // Load the image only when visible
   useEffect(() => {
