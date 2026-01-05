@@ -19,8 +19,8 @@ This is a React + TypeScript + Vite project for Tom Metz Media LLC's website. Th
 
 When creating a new component, follow this structure:
 
-1. Create a directory for the component in `src/components/`
-2. Include these files:
+1. Create a directory for the component in `src/components/` using **kebab-case**
+2. Include these files with **PascalCase** names matching the component:
    - `ComponentName.tsx` - The main component file
    - `ComponentName.css` - Component styles
    - `ComponentName.test.tsx` - Component tests
@@ -28,18 +28,18 @@ When creating a new component, follow this structure:
 3. **Always** export the component from `index.ts` in the component directory
 4. **Always** add the export to `/src/components/index.ts`
 
-Example:
+Example (for a component named "MyComponent"):
 ```
-src/components/my-component/
-  ├── MyComponent.tsx
+src/components/my-component/        ← kebab-case directory
+  ├── MyComponent.tsx               ← PascalCase files
   ├── MyComponent.css
   ├── MyComponent.test.tsx
-  └── index.ts  // exports the component
+  └── index.ts                      ← exports the component
 ```
 
 And update `/src/components/index.ts`:
 ```typescript
-export * from './my-component'
+export * from './my-component'      ← kebab-case directory name
 ```
 
 ## Code Conventions
