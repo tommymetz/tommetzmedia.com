@@ -3,6 +3,9 @@ import { Loader } from '../loader/Loader'
 import { useWhenVisible } from '../../hooks'
 import './Image.css'
 
+const MIN_LOADING_TIME = 500 // 0.5 seconds
+const MIN_LOADING_TIME_RANDOMIZED_RANGE = 500 // 0.5 seconds
+
 export const Image = ({
   src,
   alt
@@ -19,13 +22,13 @@ export const Image = ({
     if (!isVisible) return
 
     const img = new window.Image()
-    const minLoadingTime = 1000 // 1 second
+    const randomizedLoadingTime = MIN_LOADING_TIME + Math.random() * MIN_LOADING_TIME_RANDOMIZED_RANGE
     const startTime = Date.now()
     let timeoutId: ReturnType<typeof setTimeout>
 
     const finishLoading = () => {
       const elapsedTime = Date.now() - startTime
-      const remainingTime = minLoadingTime - elapsedTime
+      const remainingTime = randomizedLoadingTime - elapsedTime
       timeoutId = setTimeout(() => setIsLoading(false), remainingTime > 0 ? remainingTime : 0)
     }
 

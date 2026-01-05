@@ -159,7 +159,7 @@ describe('Image', () => {
     expect(displayedImage).toBeInTheDocument();
   });
 
-  it('respects minimum loading time of 1 second', async () => {
+  it('respects minimum loading time range (0.5-1.0 seconds)', async () => {
     render(<Image src="/test-image.jpg" />);
 
     // Trigger visibility
@@ -174,10 +174,10 @@ describe('Image', () => {
       }
     });
 
-    // Should still show loader before 1 second
+    // Should still show loader before minimum time (0.5s)
     expect(screen.getByTestId('loader')).toBeInTheDocument();
 
-    // Advance time and should show image after 1 second
+    // Advance time to maximum possible loading time (1 second) to ensure image is shown
     await act(async () => {
       await vi.advanceTimersByTimeAsync(1000);
     });
