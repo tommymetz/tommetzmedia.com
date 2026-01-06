@@ -13,7 +13,7 @@ export const Section = ({
 }) => {
   return (
     <div className="section">
-      {headline && <Text level="h2">{headline}</Text>}
+      {headline && <Text level="h2" animate animateWhenVisible>{headline}</Text>}
       <div className={`section-content ${columns ? `columns-${columns}` : ''}`}>
         {children}
       </div>

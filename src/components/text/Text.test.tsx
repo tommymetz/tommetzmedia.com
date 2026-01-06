@@ -1,8 +1,51 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { Text } from './Text';
+import { act } from 'react';
 
 describe('Text', () => {
+  let intersectionCallback: IntersectionObserverCallback | null = null
+  let observedElement: Element | null = null
+
+  const triggerIntersection = (isIntersecting: boolean) => {
+    if (intersectionCallback && observedElement) {
+      intersectionCallback(
+        [{ isIntersecting, target: observedElement } as IntersectionObserverEntry],
+        {} as IntersectionObserver
+      )
+    }
+  }
+
+  beforeEach(() => {
+    // Mock IntersectionObserver
+    window.IntersectionObserver = class MockIntersectionObserver {
+      constructor(callback: IntersectionObserverCallback) {
+        intersectionCallback = callback
+      }
+
+      observe(element: Element) {
+        observedElement = element
+      }
+
+      disconnect() {
+        observedElement = null
+      }
+
+      unobserve() {}
+      takeRecords() {
+        return []
+      }
+      root = null
+      rootMargin = ''
+      thresholds = []
+    } as any
+  })
+
+  afterEach(() => {
+    intersectionCallback = null
+    observedElement = null
+  })
+
   it('renders a paragraph by default', () => {
     render(<Text>Hello World</Text>);
     const pElement = screen.getByText('Hello World');
@@ -65,5 +108,58 @@ describe('Text', () => {
     render(<Text>No Animation</Text>);
     const textElement = screen.getByText('No Animation');
     expect(textElement.querySelector('.animated-letter')).not.toBeInTheDocument();
+  });
+
+  describe('animateWhenVisible', () => {
+    it('does not animate initially when animateWhenVisible is true', () => {
+      render(<Text animate animateWhenVisible>Animate When Visible</Text>);
+      const textElement = screen.getByTestId('text-component');
+      // Should not have animated letters initially since it's not visible yet
+      expect(textElement.querySelector('.animated-letter')).not.toBeInTheDocument();
+    });
+
+    it('animates after element becomes visible', async () => {
+      const { rerender } = render(<Text animate animateWhenVisible>Animate When Visible</Text>);
+      const textElement = screen.getByTestId('text-component');
+      
+      // Initially not animated
+      expect(textElement.querySelector('.animated-letter')).not.toBeInTheDocument();
+      
+      // Trigger visibility
+      await act(async () => {
+        triggerIntersection(true);
+      });
+      
+      // Re-render to apply state changes
+      rerender(<Text animate animateWhenVisible>Animate When Visible</Text>);
+      
+      // After becoming visible, should have animated letters
+      const spans = textElement.querySelectorAll('.animated-letter');
+      expect(spans.length).toBeGreaterThan(0);
+    });
+
+    it('does not animate if animate is false even when visible', async () => {
+      const { rerender } = render(<Text animateWhenVisible>No Animate Prop</Text>);
+      const textElement = screen.getByTestId('text-component');
+      
+      // Trigger visibility
+      await act(async () => {
+        triggerIntersection(true);
+      });
+      
+      // Re-render to apply state changes
+      rerender(<Text animateWhenVisible>No Animate Prop</Text>);
+      
+      // Should still not animate since animate prop is false
+      expect(textElement.querySelector('.animated-letter')).not.toBeInTheDocument();
+    });
+
+    it('animates immediately when animate is true but animateWhenVisible is false', () => {
+      render(<Text animate>Immediate Animation</Text>);
+      const textElement = screen.getByTestId('text-component');
+      // Should have animated letters immediately
+      const spans = textElement.querySelectorAll('.animated-letter');
+      expect(spans.length).toBeGreaterThan(0);
+    });
   });
 });

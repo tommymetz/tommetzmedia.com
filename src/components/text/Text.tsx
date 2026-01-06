@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import './Text.css'
+import { useWhenVisible } from '../../hooks/useWhenVisible'
 
 type Level = 'h1' | 'h2' | 'h3' | 'body'
 
@@ -7,6 +8,7 @@ type Props = {
   level?: Level
   headline?: boolean
   animate?: boolean
+  animateWhenVisible?: boolean
   animationDelaySeconds?: number
   children?: React.ReactNode
   className?: string
@@ -16,11 +18,15 @@ export const Text = ({
   level = 'body',
   headline = false,
   animate = false,
+  animateWhenVisible = false,
   animationDelaySeconds = 0,
   children,
   className = '',
   ...rest
 }: Props) => {
+  const containerRef = useRef<HTMLElement>(null)
+  const isVisible = useWhenVisible(containerRef)
+  
   const Tag: any = level === 'body' ? 'p' : level
   const classes = [
     'text',
@@ -31,8 +37,10 @@ export const Text = ({
     .filter(Boolean)
     .join(' ')
 
+  const shouldAnimate = animate && (!animateWhenVisible || isVisible)
+  
   const animatedChildren =
-    animate && typeof children === 'string'
+    shouldAnimate && typeof children === 'string'
       ? children.split('').map((char, index) => (
         <span
           key={index}
@@ -45,7 +53,7 @@ export const Text = ({
       : children
 
   return (
-    <Tag className={classes} {...(rest as any)} data-testid="text-component">
+    <Tag ref={containerRef} className={classes} {...(rest as any)} data-testid="text-component">
       {animatedChildren}
     </Tag>
   )
