@@ -10,7 +10,7 @@ class MockIntersectionObserver {
   disconnect() {}
   unobserve() {}
   takeRecords() {
-    return []
+    return [];
   }
   root = null
   rootMargin = ''
