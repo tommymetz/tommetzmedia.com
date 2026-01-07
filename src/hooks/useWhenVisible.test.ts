@@ -102,7 +102,7 @@ describe('useWhenVisible', () => {
       return useWhenVisible(ref)
     })
 
-    expect(observerOptions).toEqual({ threshold: 0 })
+    expect(observerOptions).toEqual({ threshold: 0.1, rootMargin: '0px' })
   })
 
   it('handles null ref gracefully', () => {

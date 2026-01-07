@@ -14,7 +14,7 @@ export const useWhenVisible = (containerRef: RefObject<HTMLElement | null>) => {
           observer.disconnect()
         }
       },
-      { threshold: 0 }
+      { threshold: 0.1, rootMargin: '0px' }
     )
 
     observer.observe(container)
