@@ -74,13 +74,14 @@ function App() {
           </ContentCard>
         </Section>
         <Section headline="Services" columns={1}>
-          {Array.isArray(data?.services) && data.services.map((service: any) => (
-            <ContentCard>{service.service[0].text}</ContentCard>
+          {Array.isArray(data?.services) && data.services.map((service: any, index: number) => (
+            <ContentCard key={index}>{service.service[0].text}</ContentCard>
           ))}
         </Section>
-        <Section headline="Featured Work">
-          {Array.isArray(data?.projects) && data.projects.map((project: any) => (
+        <Section headline="Featured Work" wide>
+          {Array.isArray(data?.projects) && data.projects.map((project: any, index: number) => (
             <ContentCard
+              key={index}
               title={project.project_link_title?.[0]?.text}
               link={project.project_link?.url}
               image={project.project_image?.url}
@@ -89,9 +90,10 @@ function App() {
             </ContentCard>
           ))}
         </Section>
-        <Section headline="Music Mastering">
-          {Array.isArray(data?.mastering) && data.mastering.map((m: any) => (
+        <Section headline="Music Mastering" wide>
+          {Array.isArray(data?.mastering) && data.mastering.map((m: any, index: number) => (
             <ContentCard
+              key={index}
               title={m.title?.[0]?.text}
               link={m.link?.url ?? m.link?.url}
               image={m.image_link?.url ?? m.image_link?.url}

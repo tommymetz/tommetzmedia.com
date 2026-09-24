@@ -18,7 +18,7 @@ const Content = ({
     {children && (
       <Text level="body">
         {typeof children === 'string' || typeof children === 'number' ? (
-          <div dangerouslySetInnerHTML={{ __html: String(children) }} />
+          <span dangerouslySetInnerHTML={{ __html: String(children) }} />
         ) : (
           <>{children}</>
         )}

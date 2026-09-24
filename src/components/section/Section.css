@@ -63,3 +63,22 @@
     max-width: 100%;
   }
 }
+
+/* Full-width section: 3 columns on desktop, 2 on tablet, 1 on mobile */
+.section.wide {
+  max-width: none;
+}
+.section.wide .section-content {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media(max-width:1024px){
+  .section.wide .section-content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media(max-width:768px){
+  .section.wide .section-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
