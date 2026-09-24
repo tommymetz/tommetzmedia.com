@@ -77,6 +77,14 @@ const mockPrismicData = {
         project_description: [{ text: 'Project 2 description' }],
       },
     ],
+    music_production: [
+      {
+        title: [{ text: 'Production 1' }],
+        link: { url: 'https://example.com/production1' },
+        image_link: { url: 'https://example.com/production1.jpg' },
+        description: [{ text: 'Production 1 description' }],
+      },
+    ],
     mastering: [
       {
         title: [{ text: 'Mastering 1' }],
@@ -141,6 +149,7 @@ describe('App', () => {
         expect(screen.getByTestId('section-About')).toBeInTheDocument();
         expect(screen.getByTestId('section-Services')).toBeInTheDocument();
         expect(screen.getByTestId('section-Featured Work')).toBeInTheDocument();
+        expect(screen.getByTestId('section-Music Production')).toBeInTheDocument();
         expect(screen.getByTestId('section-Music Mastering')).toBeInTheDocument();
         expect(screen.getByTestId('section-Clients')).toBeInTheDocument();
         expect(screen.getByTestId('section-Contact')).toBeInTheDocument();
@@ -217,6 +226,15 @@ describe('App', () => {
         expect(screen.getByText('Project 1 description')).toBeInTheDocument();
         expect(screen.getByText('Project 2')).toBeInTheDocument();
         expect(screen.getByText('Project 2 description')).toBeInTheDocument();
+      });
+    });
+
+    it('renders music production items with all data', async () => {
+      render(<App />);
+
+      await waitFor(() => {
+        expect(screen.getByText('Production 1')).toBeInTheDocument();
+        expect(screen.getByText('Production 1 description')).toBeInTheDocument();
       });
     });
 

@@ -90,6 +90,18 @@ function App() {
             </ContentCard>
           ))}
         </Section>
+        <Section headline="Music Production" wide>
+          {Array.isArray(data?.music_production) && data.music_production.map((m: any, index: number) => (
+            <ContentCard
+              key={index}
+              title={m.title?.[0]?.text}
+              link={m.link?.url}
+              image={m.image_link?.url}
+            >
+              {m.description?.[0]?.text}
+            </ContentCard>
+          ))}
+        </Section>
         <Section headline="Music Mastering" wide>
           {Array.isArray(data?.mastering) && data.mastering.map((m: any, index: number) => (
             <ContentCard

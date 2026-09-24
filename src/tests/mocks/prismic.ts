@@ -11,6 +11,7 @@ vi.mock('../../services', () => ({
         about_text: [{ text: 'Mock About Text' }],
         services: [],
         projects: [],
+        music_production: [],
         mastering: [],
         ongoing_clients: [],
       },
