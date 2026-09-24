@@ -84,6 +84,7 @@ function App() {
         count={swarm ? 10 : 1}
         initialDelay={swarm ? 100 : 5000}
         spawnDelay={swarm ? 100 : 5000}
+        scrollContainer={containerRef}
       />
       <FlyButton active={swarm} onClick={() => setSwarm((s) => !s)} />
       <ThreeBackground scrollRef={scrollRef} />
