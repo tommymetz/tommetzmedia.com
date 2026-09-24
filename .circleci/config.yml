@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: cimg/node:20.19.0
+      - image: cimg/node:24.19.0
     steps:
       - checkout
       - run:

@@ -8,17 +8,17 @@ This is a modern, interactive web application built with React, TypeScript, and 
 
 ## Tech Stack
 
-- **Frontend Framework:** React 19.2.3
-- **Language:** TypeScript 5.9.3
-- **Build Tool:** Vite 7.3.0
+- **Frontend Framework:** React 19.3.0
+- **Language:** TypeScript 6.0.3
+- **Build Tool:** Vite 8.3.0
 - **3D Graphics:** Three.js with React Three Fiber
 - **CMS:** Prismic
-- **Testing:** Vitest 4.0.16 with React Testing Library
-- **Linting:** ESLint 9.39.2
+- **Testing:** Vitest 4.1.11 with React Testing Library
+- **Linting:** ESLint 10.11.0
 
 ## Prerequisites
 
-- **Node.js:** Version ^20.19.0 or >=22.12.0 (see `.nvmrc`)
+- **Node.js:** Version >=24 (see `.nvmrc`)
 - **npm:** Included with Node.js
 
 ## Getting Started

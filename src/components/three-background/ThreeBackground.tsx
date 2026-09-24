@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from 'react'
+import React, { useRef, useState, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -61,32 +61,20 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number | un
     return [x, y, z] as [number, number, number]
   }
 
-  // Precompute initial sphere properties once (avoid doing Math.random during render)
-  const initialSpheres = useRef<Array<{
-    position: [number, number, number]
-    radius: number
-    color: string
-    initialScale: number
-    shrinkRate: number
-    velocity: THREE.Vector3
-  }>>([])
-
-  useEffect(() => {
-    initialSpheres.current = Array.from({ length: count }).map(() => {
-      const position = getRandomPosition()
-      const radius = Math.random() * (sphereRadiusRange - sphereRadiusMin) + sphereRadiusMin
-      const color = pickWeightedColor()
-      const initialScale = Math.random() * 0.6 + 0.4
-      const shrinkRate = Math.random() * 0.003 + 0.001
-      const velocity = new THREE.Vector3(
-        (Math.random() - 0.5) * 0.01,
-        (Math.random() - 0.5) * 0.01,
-        (Math.random() - 0.5) * 0.01
-      )
-      return { position, radius, color, initialScale, shrinkRate, velocity }
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // Precompute initial sphere properties once (lazy initializer keeps Math.random out of every render)
+  const [initialSpheres] = useState(() => Array.from({ length: count }).map(() => {
+    const position = getRandomPosition()
+    const radius = Math.random() * (sphereRadiusRange - sphereRadiusMin) + sphereRadiusMin
+    const color = pickWeightedColor()
+    const initialScale = Math.random() * 0.6 + 0.4
+    const shrinkRate = Math.random() * 0.003 + 0.001
+    const velocity = new THREE.Vector3(
+      (Math.random() - 0.5) * 0.01,
+      (Math.random() - 0.5) * 0.01,
+      (Math.random() - 0.5) * 0.01
+    )
+    return { position, radius, color, initialScale, shrinkRate, velocity }
+  }))
 
   // Calculate gravitational force between two spheres
   const calculateGravitationalForce = (sphere1: SphereData, sphere2: SphereData) => {
@@ -176,7 +164,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number | un
 
   return (
     <group ref={groupRef} position={[xPos, 0/* overridden above */, zPos]}>
-      {initialSpheres.current.map((s, i) => {
+      {initialSpheres.map((s, i) => {
         const position = s.position
         const sphereRadius = s.radius
         const sphereColor = s.color

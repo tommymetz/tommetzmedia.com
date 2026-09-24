@@ -8,14 +8,14 @@ This is a React + TypeScript + Vite project for Tom Metz Media LLC's website. Th
 
 ## Tech Stack
 
-- **Frontend Framework:** React 19.2.3
-- **Language:** TypeScript 5.9.3
-- **Build Tool:** Vite 7.3.0
-- **Testing:** Vitest 4.0.16 with React Testing Library
-- **Linting:** ESLint 9.39.2
+- **Frontend Framework:** React 19.3.0
+- **Language:** TypeScript 6.0.3
+- **Build Tool:** Vite 8.3.0
+- **Testing:** Vitest 4.1.11 with React Testing Library
+- **Linting:** ESLint 10.11.0
 - **3D Graphics:** Three.js with React Three Fiber
 - **CMS:** Prismic
-- **Node Version:** ^20.19.0 || >=22.12.0
+- **Node Version:** >=24
 
 ## Component Structure
 
@@ -100,3 +100,5 @@ import { Text } from '../components'
 - The Prismic service is used for content management - see `src/services/prismic/`
 - All tests should pass before committing changes
 - Always run `npm run lint` before committing to ensure code quality
+- **Never commit without asking first.** Leave changes uncommitted for review unless explicitly told to commit.
+- **Stay on `main`.** Do not create or switch branches unless explicitly told to.

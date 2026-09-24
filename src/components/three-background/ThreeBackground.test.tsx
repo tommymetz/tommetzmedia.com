@@ -3,9 +3,9 @@ import { describe, it, expect, vi } from 'vitest'
 import { ThreeBackground } from './ThreeBackground'
 import { useRef } from 'react'
 
-// Mock @react-three/fiber Canvas component since WebGL isn't available in test environment
+// Mock @react-three/fiber Canvas component since WebGL isn't available in test environment (children are three.js objects, not DOM)
 vi.mock('@react-three/fiber', () => ({
-  Canvas: ({ children }: { children: React.ReactNode }) => <div data-testid="three-canvas">{children}</div>,
+  Canvas: () => <div data-testid="three-canvas" />,
   useFrame: vi.fn(),
 }))
 
