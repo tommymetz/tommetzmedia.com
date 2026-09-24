@@ -1,0 +1,28 @@
+.fly-button {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 1002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  border: 1px solid #d32f2f;
+  border-radius: 50%;
+  background: #d32f2f;
+  color: #fff;
+  font: bold 9px/1 sans-serif;
+  cursor: pointer;
+}
+
+.fly-button[aria-pressed='true'] {
+  background: #fff;
+  color: #d32f2f;
+}
+
+.fly-button:focus-visible {
+  outline: 2px solid #d32f2f;
+  outline-offset: 2px;
+}

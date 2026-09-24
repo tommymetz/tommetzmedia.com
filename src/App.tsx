@@ -6,9 +6,11 @@ import {
   ThreeBackground,
   ContentCard,
   backgroundOpacity,
+  FlyButton,
 } from './components'
 import './App.css'
 import pkg from '../package.json'
+import { FlySplatter } from 'flysplatter'
 
 function App() {
   const wrapRef = React.useRef<HTMLDivElement>(null)
@@ -16,6 +18,7 @@ function App() {
   const [prismicDoc, setPrismicDoc] = React.useState<any | null>(null)
   const [state, setState] = React.useState<'idle' | 'loading' | 'loaded' | 'error'>('idle')
   const data = prismicDoc?.data
+  const [swarm, setSwarm] = React.useState(false)
 
   // Load Prismic singleton document (homepage)
   useEffect(() => {
@@ -75,6 +78,14 @@ function App() {
   
   return (
     <div ref={wrapRef} id="wrap" data-testid="wrap">
+      <FlySplatter
+        anchor="page"
+        muted
+        count={swarm ? 10 : 1}
+        initialDelay={swarm ? 100 : 5000}
+        spawnDelay={swarm ? 100 : 5000}
+      />
+      <FlyButton active={swarm} onClick={() => setSwarm((s) => !s)} />
       <ThreeBackground scrollRef={scrollRef} />
       <div ref={containerRef} id="container">
         <Header

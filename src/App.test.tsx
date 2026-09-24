@@ -27,6 +27,7 @@ vi.mock('./components', () => ({
       {children}
     </div>
   ),
+  FlyButton: ({ onClick }: any) => <button onClick={onClick}>fly</button>,
 }));
 
 // Mock the services module
