@@ -5,6 +5,7 @@ import {
   Section,
   ThreeBackground,
   ContentCard,
+  backgroundOpacity,
 } from './components'
 import './App.css'
 import pkg from '../package.json'
@@ -46,16 +47,29 @@ function App() {
     }
   }, [state])
 
-  // Track scroll position
+  // Track scroll position and fade the background out behind the busy card grids
   const scrollRef = useRef(0)
   useEffect(() => {
-    const handleScroll = () => {
-      if (containerRef.current) scrollRef.current = containerRef.current.scrollTop
-    }
     const theContainer = containerRef.current
-    if (theContainer) {
-      theContainer.addEventListener("scroll", handleScroll)
-      return () => theContainer?.removeEventListener("scroll", handleScroll)
+    if (!theContainer) return
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = theContainer
+      scrollRef.current = scrollTop
+      const featured = document.getElementById('featured-work')
+      if (!featured) return
+      const opacity = backgroundOpacity({
+        scrollTop,
+        scrollHeight,
+        viewportHeight: clientHeight,
+        fadeOutEnd: featured.offsetTop,
+      })
+      wrapRef.current?.style.setProperty('--bg-opacity', String(opacity))
+    }
+    theContainer.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleScroll)
+    return () => {
+      theContainer.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
     }
   }, [])
   
@@ -78,7 +92,7 @@ function App() {
             <ContentCard key={index}>{service.service[0].text}</ContentCard>
           ))}
         </Section>
-        <Section headline="Featured Work" wide>
+        <Section id="featured-work" headline="Featured Work" wide>
           {Array.isArray(data?.projects) && data.projects.map((project: any, index: number) => (
             <ContentCard
               key={index}

@@ -36,4 +36,9 @@ describe('Section', () => {
     render(<Section><div>Child</div></Section>);
     expect(screen.queryByRole('heading')).not.toBeInTheDocument();
   });
+
+  it('applies the id to the section element', () => {
+    const { container } = render(<Section id="featured-work"><div>Child</div></Section>);
+    expect(container.querySelector('#featured-work')).toHaveClass('section');
+  });
 });
