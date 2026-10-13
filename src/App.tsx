@@ -157,6 +157,9 @@ function App() {
             <a href="mailto:tom@tommetzmedia.com">tom@tommetzmedia.com</a><br /> 
           </ContentCard>
           <ContentCard>
+            <a href="https://www.linkedin.com/in/tom-metz-media-llc" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </ContentCard>
+          <ContentCard>
             <a href="https://github.com/tommymetz" target="_blank" rel="noopener noreferrer">Github</a>
           </ContentCard>
           <div className="site-version">v{pkg.version}</div>

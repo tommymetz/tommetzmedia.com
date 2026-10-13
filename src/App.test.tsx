@@ -259,12 +259,17 @@ describe('App', () => {
       });
     });
 
-    it('renders Contact section with email and GitHub links', async () => {
+    it('renders Contact section with email, LinkedIn, and GitHub links', async () => {
       render(<App />);
 
       await waitFor(() => {
         const emailLink = screen.getByText('tom@tommetzmedia.com');
         expect(emailLink).toHaveAttribute('href', 'mailto:tom@tommetzmedia.com');
+
+        const linkedinLink = screen.getByText('LinkedIn');
+        expect(linkedinLink).toHaveAttribute('href', 'https://www.linkedin.com/in/tom-metz-media-llc');
+        expect(linkedinLink).toHaveAttribute('target', '_blank');
+        expect(linkedinLink).toHaveAttribute('rel', 'noopener noreferrer');
 
         const githubLink = screen.getByText('Github');
         expect(githubLink).toHaveAttribute('href', 'https://github.com/tommymetz');
