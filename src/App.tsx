@@ -82,8 +82,8 @@ function App() {
         anchor="page"
         muted
         count={swarm ? 10 : 1}
-        initialDelay={swarm ? 100 : 5000}
-        spawnDelay={swarm ? 100 : 5000}
+        initialDelay={swarm ? 100 : 10000}
+        spawnDelay={swarm ? 100 : 10000}
         scrollContainer={containerRef}
       />
       <FlyButton active={swarm} onClick={() => setSwarm((s) => !s)} />

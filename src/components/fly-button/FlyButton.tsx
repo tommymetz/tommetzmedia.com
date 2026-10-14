@@ -1,4 +1,5 @@
 import './FlyButton.css'
+import flyImage from '../../assets/fly.png'
 
 type FlyButtonProps = {
   active: boolean
@@ -14,7 +15,7 @@ export function FlyButton({ active, onClick }: FlyButtonProps) {
       aria-pressed={active}
       onClick={onClick}
     >
-      <span aria-hidden="true">!</span>
+      <img src={flyImage} alt="" />
     </button>
   )
 }

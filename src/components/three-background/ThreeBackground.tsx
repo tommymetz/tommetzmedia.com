@@ -15,7 +15,7 @@ const BackgroundScene = ({ scrollRef }: { scrollRef: React.RefObject<number | un
   const sphereData = useRef<SphereData[]>([]);
 
   // Config
-  const count = 20
+  const count = 10
   const xPos = 2
   const yPos = -1.25
   const zPos = 0
